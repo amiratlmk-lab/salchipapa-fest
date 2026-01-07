@@ -53,7 +53,7 @@ export default async function Home() {
 
       {/* Footer */}
       <footer className="py-8 text-center text-slate-600 text-sm border-t border-slate-900">
-        <p>© 2026 Salchipapa Fest • Votación segura</p>
+        <p>© 2026 Salchipapa Fest • Votación segura • v1.1</p>
       </footer>
     </div>
   );
