@@ -40,7 +40,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/60 z-10" /> {/* Dark Overlay */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/bg-home.jpg"
+            src="/bg-home.png"
             alt="Background"
             className="w-full h-full object-contain"
           />
