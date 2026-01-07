@@ -14,29 +14,49 @@ interface LocaleCardProps {
 }
 
 export function LocaleCard({ locale, onVoteClick }: LocaleCardProps) {
+    // Mock badge logic for demo - can be real data later
+    const badgeType = Math.random() > 0.6 ? "NUEVO" : null;
+
     return (
-        <div className="group overflow-hidden rounded-xl border border-slate-800 bg-slate-900/50 hover:bg-slate-900 hover:border-yellow-500/50 transition-all duration-300">
-            <div className="relative aspect-[4/3] w-full overflow-hidden">
-                <Image
-                    src={locale.image_url}
-                    alt={locale.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent" />
+        <div className="group relative overflow-hidden rounded-2xl border border-orange-500/30 bg-black/40 backdrop-blur-sm hover:border-orange-500/80 hover:bg-black/60 transition-all duration-300 flex flex-col items-center p-6 shadow-[0_0_15px_rgba(234,88,12,0.1)] hover:shadow-[0_0_30px_rgba(234,88,12,0.2)]">
+
+            {/* Badge (Optional) */}
+            {badgeType && (
+                <div className="absolute top-4 left-4 bg-orange-600 text-white text-[10px] font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-lg border border-orange-400">
+                    <span>🔥</span> {badgeType}
+                </div>
+            )}
+
+            {/* Image Container (Diamond/Square look from reference) */}
+            <div className="relative w-full aspect-square mb-4 p-2">
+                <div className="absolute inset-0 border border-orange-500/20 rounded-xl" /> {/* Inner decorative border */}
+                <div className="relative w-full h-full rounded-lg overflow-hidden">
+                    <Image
+                        src={locale.image_url}
+                        alt={locale.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                </div>
             </div>
 
-            <div className="p-5">
-                <h3 className="text-xl font-bold text-white mb-2">{locale.name}</h3>
+            {/* Content */}
+            <div className="text-center w-full">
+                <h3 className="text-xl font-black text-white mb-1 uppercase tracking-wider">{locale.name}</h3>
                 {locale.description && (
-                    <p className="text-slate-400 text-sm mb-4 line-clamp-2">{locale.description}</p>
+                    <p className="text-orange-200/60 text-xs mb-4 line-clamp-2">{locale.description}</p>
                 )}
+
                 <Button
-                    className="w-full bg-yellow-500 text-slate-950 font-bold hover:bg-yellow-400 group-hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] transition-all"
+                    className="w-full bg-gradient-to-r from-orange-600 to-yellow-500 text-white font-black italic tracking-widest rounded-full hover:scale-105 transition-transform shadow-[0_0_15px_rgba(234,179,8,0.4)] border border-yellow-400/50 uppercase"
                     onClick={() => onVoteClick(locale)}
                 >
-                    Votar 🍟
+                    🔥 ¡VOTAR!
                 </Button>
+
+                <div className="mt-3 flex items-center justify-center gap-1 text-[10px] text-green-400 font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Voto seguro
+                </div>
             </div>
         </div>
     )
