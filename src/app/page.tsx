@@ -88,10 +88,9 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.8 }}
-            className="mb-8 -mt-6 relative z-20"
+            className="mb-8 -mt-8 relative z-20"
           >
-            <img src="/crown.png" alt="Crown" className="w-16 h-auto drop-shadow-lg mx-auto" />
-            <div className="h-[1px] w-28 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mx-auto mt-3" />
+            <img src="/crown.png" alt="Crown" className="w-[180px] h-auto drop-shadow-lg mx-auto" />
           </motion.div>
 
           {/* Main Text (H1) */}
