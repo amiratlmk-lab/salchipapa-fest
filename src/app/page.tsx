@@ -38,10 +38,13 @@ export default function Home() {
       {/* Background Layer */}
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10" /> {/* Dark Overlay */}
-        <div
-          className="absolute inset-0 bg-cover bg-center z-0"
-          style={{ backgroundImage: "url('/bg-home.jpg')" }}
-        />
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/bg-home.jpg"
+            alt="Background"
+            className="w-full h-full object-cover"
+          />
+        </div>
         <Particles />
       </div>
 
