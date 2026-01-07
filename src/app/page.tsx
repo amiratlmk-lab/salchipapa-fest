@@ -1,31 +1,33 @@
+"use client";
+
+import { useState } from "react";
 import { LocaleGrid } from "@/components/LocaleGrid";
-import { supabase } from "@/lib/supabase";
 
-export const revalidate = 0; // Disable static caching for real-time results if we wanted, but for list updates it's good.
-
-export default async function Home() {
-  // Check for DB connection immediately
-  const hasEnvVars = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!hasEnvVars) {
-    return (
-      <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-8 text-center">
-        <div className="text-6xl mb-6">⚠️</div>
-        <h1 className="text-3xl font-bold text-yellow-500 mb-4">Configuración Pendiente</h1>
-        <p className="max-w-lg text-slate-400">
-          La aplicación ha sido generada pero necesitas conectar tu base de datos Supabase.
-        </p>
-        <div className="mt-8 bg-slate-900 p-4 rounded text-left font-mono text-sm border border-slate-800">
-          <p className="text-gray-500">Configura estas variables de entorno en Vercel:</p>
-          <p className="text-green-400 mt-2">NEXT_PUBLIC_SUPABASE_URL</p>
-          <p className="text-green-400">NEXT_PUBLIC_SUPABASE_ANON_KEY</p>
-        </div>
-      </div>
-    )
+// FALLBACK DATA - Puesta a mano porque Supabase API está caída (PostgREST Unhealthy)
+const STATIC_LOCALES = [
+  {
+    id: '05a09546-7eb8-4bf9-a5df-bbe59f8149d1',
+    name: 'El Rey del Sabor',
+    image_url: 'https://images.unsplash.com/photo-1623961990059-28356e22bc84?auto=format&fit=crop&q=80&w=600',
+    description: 'La clásica con salsa de la casa.'
+  },
+  {
+    id: '91e2221d-1515-4b29-9df9-6e6b29a2cbec',
+    name: 'Mega Papas',
+    image_url: 'https://images.unsplash.com/photo-1541592106381-b31e9615242c?auto=format&fit=crop&q=80&w=600',
+    description: 'Papas rústicas con salchicha suiza.'
+  },
+  {
+    id: 'ff0b0c9a-d73c-4aca-a1f9-6e2d3306d6fd',
+    name: 'Salchipapa La Bestia',
+    image_url: 'https://images.unsplash.com/photo-1594951664366-5e0441e88863?auto=format&fit=crop&q=80&w=600',
+    description: 'Con extra queso y tocineta crujiente.'
   }
+];
 
-  // Fetch locales
-  const { data: locales, error } = await supabase.from('locales').select('*').order('name');
+export default function Home() {
+  // Usamos los datos estáticos directamente para que cargue SÍ o SÍ.
+  const locales = STATIC_LOCALES;
 
   return (
     <div className="min-h-screen bg-slate-950 text-white font-[family-name:var(--font-geist-sans)]">
@@ -42,18 +44,12 @@ export default async function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 pb-20">
-        {error ? (
-          <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200 text-center">
-            Error cargando participantes: {error.message}
-          </div>
-        ) : (
-          <LocaleGrid locales={locales || []} />
-        )}
+        <LocaleGrid locales={locales} />
       </main>
 
       {/* Footer */}
       <footer className="py-8 text-center text-slate-600 text-sm border-t border-slate-900">
-        <p>© 2026 Salchipapa Fest • Votación segura • v1.1</p>
+        <p>© 2026 Salchipapa Fest • Votación segura • Modo Emergencia Activo</p>
       </footer>
     </div>
   );
