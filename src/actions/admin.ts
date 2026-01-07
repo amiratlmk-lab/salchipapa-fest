@@ -10,18 +10,21 @@ export async function login(pin: string) {
     if (pin === ADMIN_PIN) {
         // Set a cookie that lasts for 24 hours
         const expires = new Date(Date.now() + 24 * 60 * 60 * 1000)
-        cookies().set("admin_session", "true", { expires, httpOnly: true })
+        const cookieStore = await cookies()
+        cookieStore.set("admin_session", "true", { expires, httpOnly: true })
         return { success: true }
     }
     return { success: false, error: "PIN incorrecto" }
 }
 
 export async function logout() {
-    cookies().delete("admin_session")
+    const cookieStore = await cookies()
+    cookieStore.delete("admin_session")
 }
 
 export async function checkAuth() {
-    const session = cookies().get("admin_session")
+    const cookieStore = await cookies()
+    const session = cookieStore.get("admin_session")
     return session?.value === "true"
 }
 
