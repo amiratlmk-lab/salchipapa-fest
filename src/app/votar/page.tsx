@@ -71,7 +71,7 @@ export default function VotingPage() {
             </div>
 
             {/* Main Content */}
-            <div className="relative z-10 flex flex-col min-h-screen pt-12">
+            <div className="relative z-10 flex flex-col min-h-screen pt-2 md:pt-12">
 
                 {/* Header Section */}
                 <div className="text-center px-4 mb-2">
@@ -108,7 +108,7 @@ export default function VotingPage() {
                 </div>
 
                 {/* Voting Grid */}
-                <div className="flex-grow px-4 pb-20 mt-16">
+                <div className="flex-grow px-4 pb-20 mt-6 md:mt-16">
                     <div className="max-w-5xl mx-auto">
                         {loading ? (
                             <div className="flex flex-col items-center justify-center py-20 text-white">
