@@ -79,7 +79,7 @@ export function VoteSuccessModal({ isOpen, onClose, localeName, localeImage }: V
                     <div className="w-full mt-8 space-y-4 px-4">
                         <Button
                             className="w-full h-14 bg-gradient-to-r from-orange-600 to-yellow-500 hover:from-orange-500 hover:to-yellow-400 text-white text-lg font-black uppercase tracking-wider rounded-full shadow-[0_0_25px_rgba(234,88,12,0.4)] border border-yellow-300/30 transform transition-all hover:scale-[1.02] active:scale-[0.98]"
-                            onClick={() => window.location.href = '#ranking'} // Placeholder action
+                            onClick={() => window.location.href = `/ranking?votedName=${encodeURIComponent(localeName)}`}
                         >
                             <span className="flex items-center gap-2">
                                 🔥 Ver Ranking
