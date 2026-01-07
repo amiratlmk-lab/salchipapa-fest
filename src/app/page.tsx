@@ -57,7 +57,7 @@ export default function Home() {
 
 
           {/* Integrated Header: Sponsors + Main Logo */}
-          <div className="relative w-full max-w-[320px] md:max-w-[360px] aspect-square flex justify-center items-center mb-0">
+          <div className="relative w-full max-w-[320px] md:max-w-[360px] aspect-square flex justify-center items-center mb-6">
 
             {/* Allied Logos (Positioned Top-Left, Lowered & Closer) */}
             <motion.div
@@ -107,9 +107,9 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1, type: "spring" }}
-            className="-mt-32 relative z-20"
+            className="-mt-28 relative z-20"
           >
-            <Image src="/crown.png" alt="Crown" width={240} height={180} className="w-[240px] h-auto drop-shadow-lg mx-auto" />
+            <Image src="/crown.png" alt="Crown" width={240} height={180} className="w-[240px] h-auto drop-shadow-md mx-auto" />
           </motion.div>
 
           {/* Main Text (H1) */}
@@ -117,7 +117,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ delay: 1, duration: 1, ease: "easeOut" }}
-            className="text-3xl md:text-6xl text-[#fbcc04] uppercase leading-none tracking-tight mb-2 -mt-16 md:-mt-12 drop-shadow-md font-lilita"
+            className="text-3xl md:text-6xl text-[#fbcc04] uppercase leading-tight tracking-tight mb-2 -mt-16 md:-mt-12 drop-shadow-md font-lilita"
           >
             ¡Vota por la mejor<br />salchipapa de Panamá!
           </motion.h1>
@@ -148,7 +148,7 @@ export default function Home() {
               default: { type: "spring", stiffness: 200, damping: 20 },
               boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
             }}
-            className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-black text-xl md:text-2xl py-4 px-12 rounded-full flex items-center gap-3 border border-yellow-300/50 font-lilita tracking-wide"
+            className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-black text-xl md:text-2xl py-4 px-12 rounded-full flex items-center gap-3 border border-yellow-300/50 font-lilita tracking-wide mt-4"
           >
             <span>EMPIEZA A VOTAR 🔥</span>
 
