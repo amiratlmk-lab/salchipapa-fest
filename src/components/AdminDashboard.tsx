@@ -71,7 +71,7 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                         <form ref={formRef} action={handleAdd} className="space-y-4">
                             <Input name="name" placeholder="Nombre del Restaurante" required className="bg-slate-950" />
                             <Input name="description" placeholder="Descripción corta (opcional)" className="bg-slate-950" />
-                            <Input name="image_url" placeholder="URL de la imagen (deja vacío para default)" className="bg-slate-950" />
+                            <Input name="image" type="file" accept="image/*" className="bg-slate-950 file:bg-slate-800 file:text-white file:border-0 file:rounded-md file:px-2 file:py-1 file:mr-2 file:text-sm file:font-medium hover:file:bg-slate-700" />
                             <Button disabled={isAdding} className="w-full bg-green-600 hover:bg-green-700">
                                 {isAdding ? "Guardando..." : "Agregar Participante"}
                             </Button>
