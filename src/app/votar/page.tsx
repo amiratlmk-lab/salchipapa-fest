@@ -18,12 +18,7 @@ export default function VotingPage() {
             try {
                 const { data, error } = await supabase.from('locales').select('*').order('name');
                 if (error) throw error;
-                const realData = data || [];
-                const duplicatedData = [
-                    ...realData,
-                    ...realData.map((l: any) => ({ ...l, id: `${l.id}-copy` }))
-                ];
-                setLocales(duplicatedData);
+                setLocales(data || []);
             } catch (err: unknown) {
                 console.error("Error fetching locales:", err);
                 setError((err as Error).message || "Error desconocido");
@@ -71,39 +66,41 @@ export default function VotingPage() {
             </div>
 
             {/* Main Content */}
-            <div className="relative z-10 flex flex-col min-h-screen pt-2 md:pt-12">
+            <div className="relative z-10 flex flex-col min-h-screen pt-2 md:pt-10">
 
                 {/* Header Section */}
                 <div className="text-center px-4 mb-2">
 
+                    {/* Integrated Header: Sponsors + Main Logo (Optional, if we want exact mirror, but user just said text/proportions. Let's fix text first) */}
+
                     {/* Crown */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.8, y: -20 }}
+                        initial={{ opacity: 0, scale: 0.8, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 0.8, type: "spring" }}
-                        className="relative z-20 -mt-6 md:-mt-12 -mb-10 md:-mb-20"
+                        transition={{ delay: 0.8, duration: 1, type: "spring" }}
+                        className="relative z-20 -mt-8 md:-mt-28 mb-2"
                     >
-                        <Image src="/crown-header.png" alt="Crown" width={500} height={250} className="w-[280px] md:w-[500px] h-auto drop-shadow-lg mx-auto" />
+                        <Image src="/crown.png" alt="Crown" width={240} height={180} className="w-[180px] md:w-[240px] h-auto drop-shadow-md mx-auto" />
                     </motion.div>
 
                     {/* Title */}
                     <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.8 }}
-                        className="text-2xl md:text-5xl lg:text-7xl text-[#fbcc04] uppercase leading-none tracking-tight mb-6 drop-shadow-md font-lilita max-w-5xl mx-auto"
+                        initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        transition={{ delay: 1, duration: 1, ease: "easeOut" }}
+                        className="text-3xl md:text-6xl text-[#fbcc04] uppercase leading-tight tracking-tight mb-4 -mt-10 md:-mt-12 drop-shadow-md font-lilita max-w-5xl mx-auto"
                     >
                         ¡VOTA POR TU LOCAL FAVORITO<br />DE SALCHIPAPAS EN PANAMÁ!
                     </motion.h1>
 
                     {/* Subtitle */}
                     <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4 }}
-                        className="text-white text-sm md:text-xl lg:text-2xl max-w-3xl mx-auto font-medium leading-relaxed px-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
+                        className="text-base md:text-lg text-white font-medium mb-8 max-w-2xl mx-auto leading-relaxed px-4"
                     >
-                        Elige cuál es el mejor negocio especialista en salchipapas del <span className="font-bold">Salchipapa Fest 2026</span> <span className="text-3xl ml-1">🏆</span>
+                        Elige cuál es el mejor negocio especialista en salchipapas del <span className="font-bold text-white">Salchipapa Fest 2026</span> 🏆
                     </motion.p>
                 </div>
 
