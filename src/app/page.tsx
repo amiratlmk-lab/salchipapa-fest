@@ -38,13 +38,25 @@ export default function Home() {
       {/* Background Layer */}
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10" /> {/* Dark Overlay */}
-        <div className="absolute inset-0 z-0">
+
+        {/* Mobile Background (Vertical) */}
+        <div className="absolute inset-0 z-0 block md:hidden">
+          <img
+            src="/bg-home-mobile.jpg"
+            alt="Mobile Background"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Desktop Background (Horizontal) */}
+        <div className="absolute inset-0 z-0 hidden md:block">
           <img
             src="/bg-home.png"
-            alt="Background"
+            alt="Desktop Background"
             className="w-full h-full object-contain"
           />
         </div>
+
         <Particles />
       </div>
 
