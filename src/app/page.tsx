@@ -93,7 +93,7 @@ export default function Home() {
           <p className="text-xl md:text-3xl text-white max-w-3xl mx-auto leading-relaxed font-bold px-4">
             ¡Vota por tu salchipapa favorita!
             <br className="block mb-6 md:mb-3" />
-            <span className="text-xl md:text-3xl text-yellow-400">Tu eliges el sabor que manda</span>
+            <span className="text-xl md:text-3xl text-yellow-400">Tú eliges el sabor que manda</span>
           </p>
         </motion.div>
       </motion.header>
