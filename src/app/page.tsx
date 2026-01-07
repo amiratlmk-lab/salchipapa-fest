@@ -42,7 +42,7 @@ export default function Home() {
           <img
             src="/bg-home.jpg"
             alt="Background"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         </div>
         <Particles />
