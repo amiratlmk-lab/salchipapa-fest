@@ -160,7 +160,7 @@ export default function Home() {
             whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(251,204,4,0.6)" }}
             whileTap={{ scale: 0.95 }}
             transition={{ delay: 1.4, type: "spring", stiffness: 200, damping: 20 }}
-            className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-black text-xl md:text-2xl py-4 px-12 rounded-full shadow-[0_0_20px_rgba(251,204,4,0.4)] flex items-center gap-3 transition-all border border-yellow-300/50 font-lilita tracking-wide"
+            className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-black text-xl md:text-2xl py-4 px-12 rounded-full shadow-[0_0_20px_rgba(251,204,4,0.4)] flex items-center gap-3 border border-yellow-300/50 font-lilita tracking-wide"
           >
             <span>EMPIEZA A VOTAR →</span>
 
