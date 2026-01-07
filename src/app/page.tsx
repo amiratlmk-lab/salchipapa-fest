@@ -140,7 +140,7 @@ export default function Home() {
               scale: 1,
               opacity: 1,
               y: 0,
-              boxShadow: ["0 0 10px rgba(251,204,4,0.3)", "0 0 30px rgba(251,204,4,0.5)", "0 0 10px rgba(251,204,4,0.3)"]
+              boxShadow: ["0 0 10px rgba(251,204,4,0.25)", "0 0 30px rgba(251,204,4,0.45)", "0 0 10px rgba(251,204,4,0.25)"]
             }}
             whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(251,204,4,0.8)" }}
             whileTap={{ scale: 0.95 }}
