@@ -128,7 +128,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1, type: "spring" }}
-            className="mb-6 -mt-32 relative z-20"
+            className="-mt-32 relative z-20"
           >
             <Image src="/crown.png" alt="Crown" width={240} height={180} className="w-[240px] h-auto drop-shadow-lg mx-auto" />
           </motion.div>
@@ -138,7 +138,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ delay: 1, duration: 1, ease: "easeOut" }}
-            className="text-3xl md:text-5xl text-[#fbcc04] uppercase leading-none tracking-tight mb-6 drop-shadow-md font-lilita"
+            className="text-3xl md:text-5xl text-[#fbcc04] uppercase leading-none tracking-tight mb-6 -mt-6 drop-shadow-md font-lilita"
           >
             ¡Vota por la mejor<br />salchipapa de Panamá!
           </motion.h1>
