@@ -87,7 +87,7 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, margin: "-50px" }}
-                className="grid grid-cols-3 gap-2 md:gap-6 lg:gap-8"
+                className="grid grid-cols-3 gap-x-2 gap-y-6 md:gap-6 lg:gap-8"
             >
                 {locales.map((locale, index) => (
                     <motion.div key={locale.id} variants={item}>
