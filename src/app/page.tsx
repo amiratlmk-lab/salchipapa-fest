@@ -5,7 +5,6 @@ import { LocaleGrid } from "@/components/LocaleGrid";
 import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Hand } from "lucide-react";
 import { Particles } from "@/components/Particles";
 
 export default function Home() {
@@ -158,16 +157,16 @@ export default function Home() {
             onClick={scrollToVoting}
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(245,158,11,0.6)" }}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(251,204,4,0.6)" }}
             whileTap={{ scale: 0.95 }}
             transition={{ delay: 1.4, type: "spring", stiffness: 200, damping: 20 }}
-            className="group relative bg-gradient-to-r from-orange-500 to-yellow-500 text-black font-black text-xl py-5 px-12 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.5)] flex items-center gap-3 transition-shadow"
+            className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-black text-xl md:text-2xl py-4 px-12 rounded-full shadow-[0_0_20px_rgba(251,204,4,0.4)] flex items-center gap-3 transition-all border border-yellow-300/50 font-lilita tracking-wide"
           >
-            <span>🔥 EMPIEZA A VOTAR</span>
-            <Hand className="w-6 h-6 rotate-90" />
+            <span>EMPIEZA A VOTAR →</span>
 
-            {/* Button Particles/Glow */}
-            <div className="absolute inset-0 rounded-full border border-white/20" />
+            {/* Button Shine Effect */}
+            <div className="absolute inset-0 rounded-full border border-white/30" />
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 rounded-t-full" />
           </motion.button>
 
         </main>
