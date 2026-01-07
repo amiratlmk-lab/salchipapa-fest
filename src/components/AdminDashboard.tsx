@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { addLocale, deleteLocale } from "@/actions/admin"
+import { addLocale, deleteLocale, editLocale } from "@/actions/admin"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { motion, AnimatePresence } from "framer-motion"
+import { Pencil, Trash2, X, Plus, Save } from "lucide-react"
 
 interface AdminDashboardProps {
     locales: any[]
@@ -12,7 +13,8 @@ interface AdminDashboardProps {
 }
 
 export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
-    const [isAdding, setIsAdding] = useState(false)
+    const [isSaving, setIsSaving] = useState(false)
+    const [editingLocale, setEditingLocale] = useState<any | null>(null)
     const formRef = useRef<HTMLFormElement>(null)
 
     // Calculate Stats
@@ -22,16 +24,43 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
         count: votes.filter(v => v.locale_id === l.id).length
     })).sort((a, b) => b.count - a.count)
 
-    const handleAdd = async (formData: FormData) => {
-        setIsAdding(true)
-        const res = await addLocale(formData)
-        setIsAdding(false)
+    const handleSave = async (formData: FormData) => {
+        setIsSaving(true)
+
+        // If editing, append the ID and current image URL
+        if (editingLocale) {
+            formData.append("id", editingLocale.id)
+            if (!formData.get("image")?.valueOf()) {
+                // logic handled in server action: if no new file, verify if we need to send old url
+                // server action reads 'current_image_url' if provided
+                formData.append("current_image_url", editingLocale.image_url)
+            }
+        }
+
+        const res = editingLocale
+            ? await editLocale(formData)
+            : await addLocale(formData)
+
+        setIsSaving(false)
+
         if (res.success) {
             formRef.current?.reset()
-            alert("¡Local agregado!")
+            setEditingLocale(null)
+            alert(editingLocale ? "¡Local actualizado!" : "¡Local agregado!")
         } else {
             alert("Error: " + res.error)
         }
+    }
+
+    const startEditing = (locale: any) => {
+        setEditingLocale(locale)
+        // Optionally scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
+    const cancelEditing = () => {
+        setEditingLocale(null)
+        formRef.current?.reset()
     }
 
     const handleDelete = async (id: string, name: string) => {
@@ -39,7 +68,7 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
 
         const res = await deleteLocale(id)
         if (res.success) {
-            // UI updates automatically via revalidatePath
+            if (editingLocale?.id === id) cancelEditing()
         } else {
             alert("Error: " + res.error)
         }
@@ -64,17 +93,59 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
 
                 {/* Left Column: Manage Locales */}
                 <div className="space-y-8">
-                    <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-800">
+                    <section className={`p-6 rounded-xl border transition-colors ${editingLocale ? 'bg-yellow-900/10 border-yellow-500/50' : 'bg-slate-900/50 border-slate-800'}`}>
                         <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                            <span>🏪</span> Nuevo Local
+                            {editingLocale ? <Pencil className="w-5 h-5 text-yellow-500" /> : <Plus className="w-5 h-5 text-green-500" />}
+                            <span className={editingLocale ? "text-yellow-500" : "text-white"}>
+                                {editingLocale ? "Editar Local" : "Nuevo Local"}
+                            </span>
                         </h2>
-                        <form ref={formRef} action={handleAdd} className="space-y-4">
-                            <Input name="name" placeholder="Nombre del Restaurante" required className="bg-slate-950" />
-                            <Input name="description" placeholder="Descripción corta (opcional)" className="bg-slate-950" />
-                            <Input name="image" type="file" accept="image/*" className="bg-slate-950 file:bg-slate-800 file:text-white file:border-0 file:rounded-md file:px-2 file:py-1 file:mr-2 file:text-sm file:font-medium hover:file:bg-slate-700" />
-                            <Button disabled={isAdding} className="w-full bg-green-600 hover:bg-green-700">
-                                {isAdding ? "Guardando..." : "Agregar Participante"}
-                            </Button>
+
+                        <form ref={formRef} action={handleSave} className="space-y-4" key={editingLocale?.id || 'new'}>
+                            <Input
+                                name="name"
+                                placeholder="Nombre del Restaurante"
+                                required
+                                className="bg-slate-950"
+                                defaultValue={editingLocale?.name || ""}
+                            />
+                            <Input
+                                name="description"
+                                placeholder="Descripción corta (opcional)"
+                                className="bg-slate-950"
+                                defaultValue={editingLocale?.description || ""}
+                            />
+
+                            <div className="space-y-2">
+                                <label className="text-sm text-slate-400 ml-1">Logo / Imagen</label>
+                                <div className="flex gap-4 items-center">
+                                    {editingLocale?.image_url && (
+                                        <div className="relative w-12 h-12 rounded bg-slate-800 border border-slate-700 overflow-hidden flex-shrink-0">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img src={editingLocale.image_url} alt="current" className="w-full h-full object-contain" />
+                                        </div>
+                                    )}
+                                    <Input
+                                        name="image"
+                                        type="file"
+                                        accept="image/*"
+                                        className="bg-slate-950 file:bg-slate-800 file:text-white file:border-0 file:rounded-md file:px-2 file:py-1 file:mr-2 file:text-sm file:font-medium hover:file:bg-slate-700 flex-grow"
+                                    />
+                                </div>
+                                {editingLocale && <p className="text-xs text-yellow-500/80 ml-1">* Sube una imagen solo si quieres cambiar la actual.</p>}
+                            </div>
+
+                            <div className="flex gap-2 pt-2">
+                                <Button disabled={isSaving} className={`flex-1 ${editingLocale ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-green-600 hover:bg-green-700'}`}>
+                                    {isSaving ? "Guardando..." : (editingLocale ? "Actualizar Datos" : "Agregar Participante")}
+                                </Button>
+
+                                {editingLocale && (
+                                    <Button type="button" variant="outline" onClick={cancelEditing} className="bg-transparent border-slate-700 hover:bg-slate-800 text-slate-300">
+                                        Cancelar
+                                    </Button>
+                                )}
+                            </div>
                         </form>
                     </section>
 
@@ -88,20 +159,34 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                                         initial={{ opacity: 0, height: 0 }}
                                         animate={{ opacity: 1, height: "auto" }}
                                         exit={{ opacity: 0, height: 0 }}
-                                        className="bg-slate-900 p-4 rounded-lg border border-slate-800 flex justify-between items-center group"
+                                        className={`p-4 rounded-lg border flex justify-between items-center group transition-colors ${editingLocale?.id === locale.id ? 'bg-yellow-900/20 border-yellow-500/30' : 'bg-slate-900 border-slate-800'}`}
                                     >
                                         <div className="flex items-center gap-3">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img src={locale.image_url || "/logo.png"} alt="mini" className="w-10 h-10 object-contain rounded bg-white/5 p-1" />
                                             <span className="font-medium">{locale.name}</span>
                                         </div>
-                                        <Button
-                                            variant="ghost"
-                                            onClick={() => handleDelete(locale.id, locale.name)}
-                                            className="text-red-400 hover:text-red-300 hover:bg-red-950/30 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        >
-                                            Borrar
-                                        </Button>
+
+                                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <Button
+                                                size="sm"
+                                                variant="ghost"
+                                                onClick={() => startEditing(locale)}
+                                                className="h-8 w-8 p-0 text-blue-400 hover:text-blue-300 hover:bg-blue-950/30"
+                                                title="Editar"
+                                            >
+                                                <Pencil className="w-4 h-4" />
+                                            </Button>
+                                            <Button
+                                                size="sm"
+                                                variant="ghost"
+                                                onClick={() => handleDelete(locale.id, locale.name)}
+                                                className="h-8 w-8 p-0 text-red-400 hover:text-red-300 hover:bg-red-950/30"
+                                                title="Borrar"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </div>
                                     </motion.div>
                                 ))}
                             </AnimatePresence>

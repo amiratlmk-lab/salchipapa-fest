@@ -84,6 +84,61 @@ export async function addLocale(formData: FormData) {
     return { success: true }
 }
 
+export async function editLocale(formData: FormData) {
+    const isAuth = await checkAuth()
+    if (!isAuth) return { success: false, error: "No autorizado" }
+
+    const id = formData.get("id") as string
+    const name = formData.get("name") as string
+    const description = formData.get("description") as string
+    const imageFile = formData.get("image") as File
+
+    if (!id) return { success: false, error: "ID no válido" }
+    if (!name) return { success: false, error: "El nombre es obligatorio" }
+
+    let image_url = formData.get("current_image_url") as string || "/logo.png"
+
+    // Handle New File Upload if present
+    if (imageFile && imageFile.size > 0 && imageFile.name !== "undefined") {
+        try {
+            const fileExt = imageFile.name.split('.').pop()
+            const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+            const filePath = `${fileName}`
+
+            const { error: uploadError } = await supabase.storage
+                .from('locales')
+                .upload(filePath, imageFile)
+
+            if (uploadError) {
+                console.error("Upload error:", uploadError)
+                return { success: false, error: "Error subiendo imagen: " + uploadError.message }
+            }
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('locales')
+                .getPublicUrl(filePath)
+
+            image_url = publicUrl
+        } catch (error) {
+            console.error("Upload exception:", error)
+            return { success: false, error: "Error procesando la imagen" }
+        }
+    }
+
+    const { error } = await supabase
+        .from("locales")
+        .update({ name, description, image_url })
+        .eq("id", id)
+
+    if (error) {
+        return { success: false, error: error.message }
+    }
+
+    revalidatePath("/")
+    revalidatePath("/admin")
+    return { success: true }
+}
+
 export async function deleteLocale(id: string) {
     const isAuth = await checkAuth()
     if (!isAuth) return { success: false, error: "No autorizado" }
