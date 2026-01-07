@@ -81,7 +81,7 @@ export default function VotingPage() {
                         initial={{ opacity: 0, scale: 0.8, y: -20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         transition={{ duration: 0.8, type: "spring" }}
-                        className="relative z-20 -mb-10 md:-mb-20"
+                        className="relative z-20 -mt-6 md:mt-0 -mb-10 md:-mb-20"
                     >
                         <Image src="/crown-header.png" alt="Crown" width={500} height={250} className="w-[280px] md:w-[500px] h-auto drop-shadow-lg mx-auto" />
                     </motion.div>
