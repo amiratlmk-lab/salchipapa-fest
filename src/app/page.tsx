@@ -150,7 +150,7 @@ export default function Home() {
             transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
             className="text-base md:text-lg text-slate-300 font-medium mb-12 max-w-xs mx-auto leading-relaxed"
           >
-            Solo una será coronada como la reina del Salchipapa Fest 2026 🔥👑
+            Solo una será coronada como la reina del <span className="font-bold text-white">Salchipapa Fest 2026</span> 🔥👑
           </motion.p>
 
           {/* CTA Button */}
