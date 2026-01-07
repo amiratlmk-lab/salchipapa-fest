@@ -70,7 +70,7 @@ export default function Home() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 100, delay: 0.4 }}
-              className="relative w-[85%] h-[85%] z-10 translate-x-6 -translate-y-8"
+              className="relative w-[80%] h-[80%] z-10 translate-x-6 -translate-y-8"
             >
               <img
                 src="/logo.png"
