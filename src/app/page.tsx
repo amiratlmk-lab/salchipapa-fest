@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { LocaleGrid } from "@/components/LocaleGrid";
 import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
+// import { Lock, RotateCw, Hand } from "lucide-react"; // Icons - Removed header icons
+import { Hand } from "lucide-react";
+import { Particles } from "@/components/Particles";
 
 export default function Home() {
   const [locales, setLocales] = useState<any[]>([]);
@@ -14,11 +17,7 @@ export default function Home() {
     async function fetchData() {
       try {
         const { data, error } = await supabase.from('locales').select('*').order('name');
-
-        if (error) {
-          throw error;
-        }
-
+        if (error) throw error;
         setLocales(data || []);
       } catch (err: any) {
         console.error("Error fetching locales:", err);
@@ -27,98 +26,138 @@ export default function Home() {
         setLoading(false);
       }
     }
-
     fetchData();
   }, []);
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.5 }}
-        className="py-12 md:py-24 px-6 text-center bg-gradient-to-b from-yellow-500/10 to-transparent flex flex-col items-center overflow-hidden"
-      >
+  const scrollToVoting = () => {
+    document.getElementById("voting-section")?.scrollIntoView({ behavior: "smooth" });
+  };
 
-        <div className="flex items-center justify-center gap-6 md:gap-16 mb-16 md:mb-10 w-full max-w-4xl">
-          {/* Sponsor Left - Uni Cola */}
+  return (
+    <div className="min-h-screen bg-slate-950 text-white font-sans relative overflow-x-hidden selection:bg-yellow-500/30">
+
+      {/* Background Layer */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-black/60 z-10" /> {/* Dark Overlay */}
+        <div
+          className="absolute inset-0 bg-cover bg-center z-0"
+          style={{ backgroundImage: "url('/bg-home.jpg')" }}
+        />
+        <Particles />
+      </div>
+
+      {/* Main Content Layer */}
+      <div className="relative z-10 flex flex-col min-h-screen">
+
+        {/* Removed Fake Browser Header */}
+
+        {/* Hero Section */}
+        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-12 pb-12 text-center max-w-md mx-auto w-full">
+
+          {/* 2. Allied Logos */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 1.5 }}
-            viewport={{ once: true }}
-            className="w-16 h-16 md:w-32 md:h-32 flex-shrink-0"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex items-center gap-4 mb-6 opacity-90"
           >
-            <img src="/sponsor-uni.png" alt="Uni Cola" className="w-full h-full object-contain drop-shadow-md opacity-90 hover:opacity-100 transition-opacity" />
+            <img src="/sponsor-uni.png" alt="Uni Cola" className="h-10 w-auto object-contain grayscale-[20%]" />
+            <img src="/sponsor-epic.png" alt="Epic Marketing" className="h-10 w-auto object-contain grayscale-[20%]" />
           </motion.div>
 
-          {/* Main Logo */}
+          {/* 3. Main Logo */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.5, type: "spring", stiffness: 50, duration: 1.5 }}
-            viewport={{ once: true }}
-            className="relative w-40 h-40 md:w-72 md:h-72 flex-shrink-0"
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 100, delay: 0.4 }}
+            className="relative w-72 h-72 mb-2"
           >
             <img
               src="/logo.png"
-              alt="Salchipapa Fest 2026 Logo"
-              className="object-contain w-full h-full drop-shadow-2xl hover:scale-105 transition-transform duration-300"
+              alt="Salchipapa Fest 2026"
+              className="w-full h-full object-contain drop-shadow-[0_0_25px_rgba(234,179,8,0.3)] filter brightness-110"
             />
           </motion.div>
 
-          {/* Sponsor Right - Epic Marketing */}
+          {/* 4. Golden Crown */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 1.5 }}
-            viewport={{ once: true }}
-            className="w-16 h-16 md:w-32 md:h-32 flex-shrink-0"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.8 }}
+            className="mb-10"
           >
-            <img src="/sponsor-epic.png" alt="Epic Marketing" className="w-full h-full object-contain drop-shadow-md opacity-90 hover:opacity-100 transition-opacity" />
+            <img src="/crown.png" alt="Crown" className="w-20 h-auto drop-shadow-lg mx-auto" />
+            <div className="h-[1px] w-28 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mx-auto mt-3" />
           </motion.div>
-        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.8, duration: 1.5 }}
-        >
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-yellow-400 mb-6 drop-shadow-lg hidden">
-            Salchipapa Fest
-          </h1>
-          <p className="text-xl md:text-3xl text-white max-w-3xl mx-auto leading-relaxed font-bold px-4">
-            ¡Vota por tu salchipapa favorita!
-            <br className="block mb-6 md:mb-3" />
-            <span className="text-xl md:text-3xl text-yellow-400">Tú eliges el sabor que manda</span>
-          </p>
-        </motion.div>
-      </motion.header>
+          {/* 5. Main Text (H1) */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="text-3xl md:text-5xl font-black text-yellow-400 uppercase leading-none tracking-tight mb-6 drop-shadow-md"
+          >
+            ¡Vota por la mejor<br />salchipapa de Panamá!
+          </motion.h1>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 pb-20">
-        {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 text-slate-500">
-            <div className="animate-spin text-4xl mb-4">🍟</div>
-            <p>Cargando participantes...</p>
+          {/* 6. Subtitle */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.1 }}
+            className="text-base md:text-lg text-slate-300 font-medium mb-12 max-w-xs mx-auto leading-relaxed"
+          >
+            Solo una será coronada como la reina del Salchipapa Fest 2026 🔥👑
+          </motion.p>
+
+          {/* 7. CTA Button */}
+          <motion.button
+            onClick={scrollToVoting}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ delay: 1.3, type: "spring" }}
+            className="group relative bg-gradient-to-r from-orange-500 to-yellow-500 text-black font-black text-xl py-5 px-12 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.5)] flex items-center gap-3 hover:shadow-[0_0_30px_rgba(245,158,11,0.7)] transition-shadow"
+          >
+            <span>🔥 EMPIEZA A VOTAR</span>
+            <Hand className="w-6 h-6 rotate-90" />
+
+            {/* Button Particles/Glow */}
+            <div className="absolute inset-0 rounded-full border border-white/20" />
+          </motion.button>
+
+        </main>
+
+        {/* Voting Section (Locale Grid) */}
+        <section id="voting-section" className="bg-slate-950/80 backdrop-blur-md min-h-screen py-10 px-4 rounded-t-3xl border-t border-white/5 relative z-20">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold text-white mb-3">Participantes</h2>
+              <div className="h-1.5 w-16 bg-yellow-500 mx-auto rounded-full" />
+            </div>
+
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-20 text-slate-500">
+                <div className="animate-spin text-4xl mb-4">🍟</div>
+                <p>Cargando participantes...</p>
+              </div>
+            ) : error ? (
+              <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200 text-center max-w-md mx-auto">
+                <p>Error de conexión</p>
+              </div>
+            ) : (
+              <LocaleGrid locales={locales} />
+            )}
           </div>
-        ) : error ? (
-          <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200 text-center max-w-md mx-auto">
-            <p className="font-bold mb-2">Error de conexión</p>
-            <p className="text-sm opacity-80">{error}</p>
-          </div>
-        ) : (
-          <LocaleGrid locales={locales} />
-        )}
-      </main>
 
-      {/* Footer */}
-      <footer className="py-8 text-center text-slate-600 text-sm border-t border-slate-900">
-        <p>© 2026 Salchipapa Fest • Votación segura • v1.3 (Live)</p>
-      </footer>
+          {/* Footer */}
+          <footer className="py-10 text-center text-slate-500 text-xs mt-10">
+            <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
+          </footer>
+        </section>
+
+      </div>
     </div>
   );
 }
