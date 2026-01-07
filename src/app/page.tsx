@@ -53,7 +53,7 @@ export default function Home() {
       <div className="relative z-10 flex flex-col h-full">
 
         {/* Hero Section */}
-        <main className="flex-grow flex flex-col items-center justify-evenly px-4 py-2 md:pt-10 md:pb-12 text-center max-w-lg md:max-w-4xl mx-auto w-full h-full">
+        <main className="flex-grow flex flex-col items-center justify-center gap-2 md:gap-0 px-4 py-2 md:pt-10 md:pb-12 text-center max-w-lg md:max-w-4xl mx-auto w-full h-full">
 
 
           {/* Integrated Header: Sponsors + Main Logo */}
@@ -107,7 +107,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1, type: "spring" }}
-            className="-mt-32 relative z-20"
+            className="-mt-20 md:-mt-32 relative z-20"
           >
             <Image src="/crown.png" alt="Crown" width={240} height={180} className="w-[240px] h-auto drop-shadow-lg mx-auto" />
           </motion.div>
@@ -117,7 +117,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ delay: 1, duration: 1, ease: "easeOut" }}
-            className="text-3xl md:text-6xl text-[#fbcc04] uppercase leading-none tracking-tight mb-2 -mt-12 drop-shadow-md font-lilita"
+            className="text-3xl md:text-6xl text-[#fbcc04] uppercase leading-none tracking-tight mb-2 -mt-8 md:-mt-12 drop-shadow-md font-lilita"
           >
             ¡Vota por la mejor<br />salchipapa de Panamá!
           </motion.h1>
@@ -156,7 +156,7 @@ export default function Home() {
             <div className="absolute inset-0 rounded-full border border-white/30" />
             <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 rounded-t-full" />
           </motion.button>
-          <footer className="pb-6 pt-2 md:py-10 text-center text-white text-xs mt-0 md:mt-8 relative z-20">
+          <footer className="pb-4 pt-2 md:py-10 text-center text-white text-xs mt-2 md:mt-8 relative z-20">
             <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
           </footer>
         </main>
