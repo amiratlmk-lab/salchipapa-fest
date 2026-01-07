@@ -34,9 +34,42 @@ export async function addLocale(formData: FormData) {
 
     const name = formData.get("name") as string
     const description = formData.get("description") as string
-    const image_url = formData.get("image_url") as string || "/logo.png"
+    const imageFile = formData.get("image") as File
 
     if (!name) return { success: false, error: "El nombre es obligatorio" }
+
+    let image_url = "/logo.png" // Default
+
+    // Handle File Upload
+    if (imageFile && imageFile.size > 0 && imageFile.name !== "undefined") {
+        try {
+            const fileExt = imageFile.name.split('.').pop()
+            const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+            const filePath = `${fileName}`
+
+            const { error: uploadError } = await supabase.storage
+                .from('locales')
+                .upload(filePath, imageFile)
+
+            if (uploadError) {
+                console.error("Upload error:", uploadError)
+                return { success: false, error: "Error subiendo imagen: " + uploadError.message }
+            }
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('locales')
+                .getPublicUrl(filePath)
+
+            image_url = publicUrl
+        } catch (error) {
+            console.error("Upload exception:", error)
+            return { success: false, error: "Error procesando la imagen" }
+        }
+    } else {
+        // Fallback to text input if provided (legacy support)
+        const urlInput = formData.get("image_url") as string
+        if (urlInput) image_url = urlInput
+    }
 
     const { error } = await supabase
         .from("locales")
