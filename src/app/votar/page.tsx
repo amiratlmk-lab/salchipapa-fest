@@ -52,7 +52,7 @@ export default function VotingPage() {
                 {/* Desktop Background */}
                 <div className="absolute inset-0 z-0 hidden md:block">
                     <Image
-                        src="/bg-home.png"
+                        src="/bg-home-4k.jpg"
                         alt="Desktop Background"
                         fill
                         className="object-contain"
