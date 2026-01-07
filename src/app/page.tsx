@@ -49,28 +49,28 @@ export default function Home() {
       <div className="relative z-10 flex flex-col min-h-screen">
 
         {/* Hero Section */}
-        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-8 pb-12 text-center max-w-md mx-auto w-full">
+        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-10 pb-12 text-center max-w-md mx-auto w-full">
 
           {/* Integrated Header: Sponsors + Main Logo */}
-          <div className="relative w-full max-w-[340px] aspect-square flex justify-center items-center mb-0">
+          <div className="relative w-full max-w-[360px] aspect-square flex justify-center items-center mb-0">
 
-            {/* Allied Logos (Positioned Top-Left) */}
+            {/* Allied Logos (Positioned Top-Left, Lowered & Closer) */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="absolute top-2 -left-4 z-10 flex items-start gap-4"
+              className="absolute top-12 left-1 z-20 flex items-start gap-2"
             >
-              <img src="/sponsor-uni.png" alt="Uni Cola" className="h-12 w-12 object-contain drop-shadow-md" />
-              <img src="/sponsor-epic.png" alt="Epic Marketing" className="h-10 w-10 object-contain drop-shadow-md mt-1" />
+              <img src="/sponsor-uni.png" alt="Uni Cola" className="h-14 w-14 object-contain drop-shadow-lg" />
+              <img src="/sponsor-epic.png" alt="Epic Marketing" className="h-12 w-12 object-contain drop-shadow-lg mt-1" />
             </motion.div>
 
-            {/* Main Logo */}
+            {/* Main Logo (Raised, Pushed Right) */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 100, delay: 0.4 }}
-              className="relative w-[75%] h-[75%] z-0 translate-x-6 translate-y-4"
+              className="relative w-[85%] h-[85%] z-10 translate-x-6 -translate-y-8"
             >
               <img
                 src="/logo.png"
