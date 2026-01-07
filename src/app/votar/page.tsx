@@ -86,7 +86,7 @@ export default function VotingPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.8 }}
-                        className="text-2xl md:text-5xl text-[#fbcc04] uppercase leading-none tracking-tight mb-4 drop-shadow-md font-lilita max-w-5xl mx-auto"
+                        className="text-2xl md:text-3xl lg:text-4xl text-[#fbcc04] uppercase leading-none tracking-tight mb-4 drop-shadow-md font-lilita max-w-3xl mx-auto"
                     >
                         ¡VOTA POR TU LOCAL FAVORITO<br />DE SALCHIPAPAS EN PANAMÁ!
                     </motion.h1>
@@ -96,7 +96,7 @@ export default function VotingPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.4 }}
-                        className="text-white text-sm md:text-lg max-w-xl mx-auto font-medium leading-relaxed px-4"
+                        className="text-white text-sm md:text-base max-w-xl mx-auto font-medium leading-relaxed px-4"
                     >
                         Elige cuál es el mejor negocio especialista en salchipapas del <span className="font-bold">Salchipapa Fest 2026</span> 🔥👑
                     </motion.p>
@@ -104,7 +104,7 @@ export default function VotingPage() {
 
                 {/* Voting Grid */}
                 <div className="flex-grow px-4 pb-20 mt-8">
-                    <div className="max-w-7xl mx-auto">
+                    <div className="max-w-5xl mx-auto">
                         {loading ? (
                             <div className="flex flex-col items-center justify-center py-20 text-white">
                                 <div className="animate-spin text-4xl mb-4">🍟</div>
