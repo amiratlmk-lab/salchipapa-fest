@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
 import { LocaleCard } from "./LocaleCard"
 import { VoteModal } from "./VoteModal"
 import { supabase } from "@/lib/supabase"
@@ -64,53 +65,47 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
         )
     }
 
-    return (
-        <>
-            import {motion} from "framer-motion"
-
-            // ... (in LocaleGrid)
-
-            const container = {
-                hidden: {opacity: 0 },
-            show: {
-                opacity: 1,
+    const container = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
             transition: {
                 staggerChildren: 0.1
+            }
         }
-      }
     }
 
-            const item = {
-                hidden: {opacity: 0, y: 50 },
-            show: {opacity: 1, y: 0, transition: {type: "spring", stiffness: 50 } }
+    const item = {
+        hidden: { opacity: 0, y: 50 },
+        show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50 } }
     }
 
-            return (
-            <>
-                <motion.div
-                    variants={container}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, margin: "-50px" }}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12"
-                >
-                    {locales.map((locale) => (
-                        <motion.div key={locale.id} variants={item}>
-                            <LocaleCard
-                                locale={locale}
-                                onVoteClick={handleVoteClick}
-                            />
-                        </motion.div>
-                    ))}
-                </motion.div>
+    return (
+        <>
+            <motion.div
+                variants={container}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12"
+            >
+                {locales.map((locale) => (
+                    <motion.div key={locale.id} variants={item}>
+                        <LocaleCard
+                            locale={locale}
+                            onVoteClick={handleVoteClick}
+                        />
+                    </motion.div>
+                ))}
+            </motion.div>
 
-                <VoteModal
-                    isOpen={isVoteModalOpen}
-                    onClose={() => setIsVoteModalOpen(false)}
-                    onVote={handleVoteSubmit}
-                    localeName={selectedLocale?.name || ""}
-                    isSubmitting={isSubmitting}
-                />
-            </>
-            )
+            <VoteModal
+                isOpen={isVoteModalOpen}
+                onClose={() => setIsVoteModalOpen(false)}
+                onVote={handleVoteSubmit}
+                localeName={selectedLocale?.name || ""}
+                isSubmitting={isSubmitting}
+            />
+        </>
+    )
 }
