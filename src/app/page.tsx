@@ -53,7 +53,7 @@ export default function Home() {
       <div className="relative z-10 flex flex-col min-h-screen">
 
         {/* Hero Section */}
-        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-2 pb-2 md:pt-10 md:pb-12 text-center max-w-lg md:max-w-4xl mx-auto w-full">
+        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-10 pb-12 text-center max-w-lg md:max-w-4xl mx-auto w-full">
 
 
           {/* Integrated Header: Sponsors + Main Logo */}
@@ -127,7 +127,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
-            className="text-base md:text-lg text-white font-medium mb-4 md:mb-8 max-w-xs md:max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-lg text-white font-medium mb-8 max-w-xs md:max-w-2xl mx-auto leading-relaxed"
           >
             Solo una será coronada como la reina del <span className="font-bold text-white">Salchipapa Fest 2026</span> 🏆
           </motion.p>
@@ -156,7 +156,7 @@ export default function Home() {
             <div className="absolute inset-0 rounded-full border border-white/30" />
             <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 rounded-t-full" />
           </motion.button>
-          <footer className="py-4 md:py-10 text-center text-white text-xs mt-4 md:mt-8 relative z-20">
+          <footer className="py-10 text-center text-white text-xs mt-8 relative z-20">
             <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
           </footer>
         </main>
