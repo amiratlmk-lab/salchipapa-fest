@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { LocaleGrid } from "@/components/LocaleGrid";
 import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Hand } from "lucide-react";
 import { Particles } from "@/components/Particles";
 
 export default function Home() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [locales, setLocales] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,9 +20,9 @@ export default function Home() {
         const { data, error } = await supabase.from('locales').select('*').order('name');
         if (error) throw error;
         setLocales(data || []);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Error fetching locales:", err);
-        setError(err.message || "Error desconocido");
+        setError((err as Error).message || "Error desconocido");
       } finally {
         setLoading(false);
       }
@@ -41,19 +43,23 @@ export default function Home() {
 
         {/* Mobile Background (Vertical) */}
         <div className="absolute inset-0 z-0 block md:hidden">
-          <img
+          <Image
             src="/bg-home-mobile.jpg"
             alt="Mobile Background"
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            priority
           />
         </div>
 
         {/* Desktop Background (Horizontal) */}
         <div className="absolute inset-0 z-0 hidden md:block">
-          <img
+          <Image
             src="/bg-home.png"
             alt="Desktop Background"
-            className="w-full h-full object-contain"
+            fill
+            className="object-contain"
+            priority
           />
         </div>
 
@@ -77,27 +83,24 @@ export default function Home() {
               transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
               className="absolute top-12 left-1 z-20 flex items-start gap-2"
             >
-              <img src="/sponsor-uni.png" alt="Uni Cola" className="h-14 w-14 object-contain drop-shadow-lg" />
-              <img src="/sponsor-epic.png" alt="Epic Marketing" className="h-12 w-12 object-contain drop-shadow-lg mt-1" />
+              <Image src="/sponsor-uni.png" alt="Uni Cola" width={56} height={56} className="object-contain drop-shadow-lg" />
+              <Image src="/sponsor-epic.png" alt="Epic Marketing" width={48} height={48} className="object-contain drop-shadow-lg mt-1" />
             </motion.div>
 
             {/* Main Logo (Raised, Pushed Right) */}
             <motion.div
-              initial={{ scale: 0.5, opacity: 0, y: 20, filter: "blur(10px)" }}
-              animate={{ scale: 1, opacity: 1, y: -0 }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{
                 type: "spring",
-                stiffness: 100,
-                damping: 15,
-                mass: 1,
+                stiffness: 260,
+                damping: 20,
                 delay: 0.4
               }}
               className="relative w-[70%] h-[70%] z-10 translate-x-6 -translate-y-8"
             >
-              <motion.img
-                src="/logo.png"
-                alt="Salchipapa Fest 2026"
-                className="w-full h-full object-contain drop-shadow-[0_0_25px_rgba(234,179,8,0.4)] filter brightness-110"
+              <motion.div
+                className="w-full h-full relative"
                 animate={{ y: [0, -8, 0] }}
                 transition={{
                   duration: 4,
@@ -105,7 +108,14 @@ export default function Home() {
                   ease: "easeInOut",
                   delay: 2 // Wait for entry to finish
                 }}
-              />
+              >
+                <Image
+                  src="/logo.png"
+                  alt="Salchipapa Fest 2026"
+                  fill
+                  className="object-contain drop-shadow-[0_0_25px_rgba(234,179,8,0.4)] filter brightness-110"
+                />
+              </motion.div>
             </motion.div>
           </div>
 
@@ -116,7 +126,7 @@ export default function Home() {
             transition={{ delay: 0.8, duration: 1, type: "spring" }}
             className="mb-6 -mt-12 relative z-20"
           >
-            <img src="/crown.png" alt="Crown" className="w-[240px] h-auto drop-shadow-lg mx-auto" />
+            <Image src="/crown.png" alt="Crown" width={240} height={180} className="w-[240px] h-auto drop-shadow-lg mx-auto" />
           </motion.div>
 
           {/* Main Text (H1) */}
