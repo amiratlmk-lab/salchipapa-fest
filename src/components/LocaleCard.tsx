@@ -15,40 +15,19 @@ interface LocaleCardProps {
 }
 
 export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
-    // Determine badge content and style based on "rank" (index + 1)
-    let badgeContent = null;
-    let badgeStyle = "";
-    let borderStyle = "border-orange-500/30";
-    let glowStyle = "shadow-[0_0_15px_rgba(234,88,12,0.1)]";
-
-    if (rank === 1) {
-        badgeContent = "TOP 1";
-        badgeStyle = "bg-gradient-to-r from-yellow-400 to-orange-500 text-black border-yellow-300";
-        borderStyle = "border-yellow-400/60";
-        glowStyle = "shadow-[0_0_25px_rgba(250,204,21,0.3)]";
-    } else if (rank === 2) {
-        badgeContent = "2";
-        badgeStyle = "bg-slate-700 text-white border-slate-500"; // Silver-ish style for #2? Reference shows "2" circle.
-        // Actually reference image shows "2" in a circle. Let's adjust styling below.
-    } else {
-        badgeContent = "NUEVO";
-        badgeStyle = "bg-orange-600 text-white border-orange-400";
-    }
+    // Uniform badge style for all items (1, 2, 3...)
+    const badgeStyle = "bg-slate-800 text-white border-orange-500/50";
 
     return (
-        <div className={`group relative overflow-hidden rounded-xl border ${borderStyle} bg-black/60 backdrop-blur-sm transition-all duration-300 flex flex-col items-center p-2 md:p-6 ${glowStyle} hover:shadow-[0_0_30px_rgba(234,88,12,0.3)]`}>
+        <div className="group relative overflow-hidden rounded-xl border border-orange-500/30 bg-black/60 backdrop-blur-sm transition-all duration-300 flex flex-col items-center p-2 md:p-6 shadow-[0_0_15px_rgba(234,88,12,0.1)] hover:shadow-[0_0_30px_rgba(234,88,12,0.3)] hover:border-orange-500/80">
 
             {/* Sparkles Overlay */}
             <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 pointer-events-none mix-blend-overlay" />
             <div className="absolute -top-10 -right-10 w-20 h-20 bg-yellow-400/20 blur-2xl rounded-full pointer-events-none group-hover:bg-yellow-400/40 transition-all" />
 
-            {/* Badge */}
-            <div className={`absolute top-2 left-2 z-10 text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-md flex items-center justify-center gap-1 shadow-lg border uppercase ${rank === 2 ? "rounded-full w-6 h-6 p-0 border-white/50 bg-slate-800" : badgeStyle}`}>
-                {rank === 2 ? <span className="text-sm">2</span> : (
-                    <>
-                        {rank > 2 && <span>🔥</span>} {badgeContent}
-                    </>
-                )}
+            {/* Rank Badge */}
+            <div className={`absolute top-2 left-2 z-10 text-[10px] md:text-sm font-bold w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center shadow-lg border-2 ${badgeStyle}`}>
+                {rank}
             </div>
 
             {/* Image Container */}
