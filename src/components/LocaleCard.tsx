@@ -14,8 +14,8 @@ interface LocaleCardProps {
 }
 
 export function LocaleCard({ locale, onVoteClick }: LocaleCardProps) {
-    // Mock badge logic for demo - can be real data later
-    const badgeType = Math.random() > 0.6 ? "NUEVO" : null;
+    // Deterministic badge logic avoiding impure Math.random() during render
+    const badgeType = locale.id.charCodeAt(0) % 3 === 0 ? "NUEVO" : null;
 
     return (
         <div className="group relative overflow-hidden rounded-2xl border border-orange-500/30 bg-black/40 backdrop-blur-sm hover:border-orange-500/80 hover:bg-black/60 transition-all duration-300 flex flex-col items-center p-6 shadow-[0_0_15px_rgba(234,88,12,0.1)] hover:shadow-[0_0_30px_rgba(234,88,12,0.2)]">
