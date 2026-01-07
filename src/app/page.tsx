@@ -157,6 +157,8 @@ export default function Home() {
             <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 rounded-t-full" />
           </motion.button>
           <footer className="py-2 md:py-10 text-center text-white text-xs mt-4 md:mt-8 relative z-20">
+            <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
+          </footer>
         </main>
 
       </div>
