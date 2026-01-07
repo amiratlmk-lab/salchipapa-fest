@@ -159,7 +159,7 @@ export default function Home() {
 
         </main>
 
-        <footer className="py-10 text-center text-white text-xs mt-auto relative z-20">
+        <footer className="py-10 text-center text-white text-xs mt-8 relative z-20">
           <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
         </footer>
 
