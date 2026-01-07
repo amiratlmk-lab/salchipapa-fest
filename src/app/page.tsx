@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { LocaleGrid } from "@/components/LocaleGrid";
 import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
-// import { Lock, RotateCw, Hand } from "lucide-react"; // Icons - Removed header icons
 import { Hand } from "lucide-react";
 import { Particles } from "@/components/Particles";
 
@@ -49,48 +48,50 @@ export default function Home() {
       {/* Main Content Layer */}
       <div className="relative z-10 flex flex-col min-h-screen">
 
-        {/* Removed Fake Browser Header */}
-
         {/* Hero Section */}
-        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-12 pb-12 text-center max-w-md mx-auto w-full">
+        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-8 pb-12 text-center max-w-md mx-auto w-full">
 
-          {/* 2. Allied Logos */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex items-center gap-4 mb-6 opacity-90"
-          >
-            <img src="/sponsor-uni.png" alt="Uni Cola" className="h-10 w-auto object-contain grayscale-[20%]" />
-            <img src="/sponsor-epic.png" alt="Epic Marketing" className="h-10 w-auto object-contain grayscale-[20%]" />
-          </motion.div>
+          {/* Integrated Header: Sponsors + Main Logo */}
+          <div className="relative w-full max-w-[340px] aspect-square flex justify-center items-center mb-0">
 
-          {/* 3. Main Logo */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 100, delay: 0.4 }}
-            className="relative w-72 h-72 mb-2"
-          >
-            <img
-              src="/logo.png"
-              alt="Salchipapa Fest 2026"
-              className="w-full h-full object-contain drop-shadow-[0_0_25px_rgba(234,179,8,0.3)] filter brightness-110"
-            />
-          </motion.div>
+            {/* Allied Logos (Positioned Top-Left) */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="absolute top-4 left-0 z-10 flex items-start gap-2"
+            >
+              <img src="/sponsor-uni.png" alt="Uni Cola" className="h-14 w-14 object-contain drop-shadow-md" />
+              <img src="/sponsor-epic.png" alt="Epic Marketing" className="h-12 w-12 object-contain drop-shadow-md mt-1" />
+            </motion.div>
 
-          {/* 4. Golden Crown */}
+            {/* Main Logo */}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 100, delay: 0.4 }}
+              className="relative w-full h-full z-0 translate-x-4"
+            >
+              <img
+                src="/logo.png"
+                alt="Salchipapa Fest 2026"
+                className="w-full h-full object-contain drop-shadow-[0_0_25px_rgba(234,179,8,0.4)] filter brightness-110"
+              />
+            </motion.div>
+          </div>
+
+          {/* Golden Crown */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.8 }}
-            className="mb-10"
+            className="mb-8 -mt-4 relative z-20"
           >
             <img src="/crown.png" alt="Crown" className="w-20 h-auto drop-shadow-lg mx-auto" />
             <div className="h-[1px] w-28 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mx-auto mt-3" />
           </motion.div>
 
-          {/* 5. Main Text (H1) */}
+          {/* Main Text (H1) */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,7 +101,7 @@ export default function Home() {
             ¡Vota por la mejor<br />salchipapa de Panamá!
           </motion.h1>
 
-          {/* 6. Subtitle */}
+          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -110,7 +111,7 @@ export default function Home() {
             Solo una será coronada como la reina del Salchipapa Fest 2026 🔥👑
           </motion.p>
 
-          {/* 7. CTA Button */}
+          {/* CTA Button */}
           <motion.button
             onClick={scrollToVoting}
             initial={{ scale: 0.9, opacity: 0 }}
