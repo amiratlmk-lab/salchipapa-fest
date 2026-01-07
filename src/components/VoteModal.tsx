@@ -37,15 +37,15 @@ export function VoteModal({ isOpen, onClose, onVote, localeName, isSubmitting }:
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50" />
 
                 {/* Floating Crown */}
-                <div className="absolute -top-14 left-1/2 -translate-x-1/2 z-20">
+                <div className="absolute -top-20 left-1/2 -translate-x-1/2 z-20">
                     <div className="relative">
                         <div className="absolute inset-0 bg-yellow-500/20 blur-xl rounded-full" />
                         <Image
                             src="/crown-modal.png"
                             alt="Crown"
-                            width={120}
-                            height={80}
-                            className="w-[120px] h-auto drop-shadow-[0_0_20px_rgba(234,179,8,0.6)] relative z-10"
+                            width={160}
+                            height={100}
+                            className="w-[160px] h-auto drop-shadow-[0_0_20px_rgba(234,179,8,0.6)] relative z-10"
                         />
                     </div>
                 </div>
