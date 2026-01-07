@@ -149,7 +149,7 @@ export default function Home() {
             transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
             className="text-base md:text-lg text-white font-medium mb-8 max-w-xs md:max-w-2xl mx-auto leading-relaxed"
           >
-            Solo una será coronada como la reina del <span className="font-bold text-white">Salchipapa Fest 2026</span> 🔥👑
+            Solo una será coronada como la reina del <span className="font-bold text-white">Salchipapa Fest 2026</span> 🏆
           </motion.p>
 
           {/* CTA Button */}
@@ -160,9 +160,9 @@ export default function Home() {
               scale: 1,
               opacity: 1,
               y: 0,
-              boxShadow: ["0 0 20px rgba(251,204,4,0.5)", "0 0 60px rgba(251,204,4,0.8)", "0 0 20px rgba(251,204,4,0.5)"]
+              boxShadow: ["0 0 10px rgba(251,204,4,0.3)", "0 0 30px rgba(251,204,4,0.5)", "0 0 10px rgba(251,204,4,0.3)"]
             }}
-            whileHover={{ scale: 1.05, boxShadow: "0 0 80px rgba(251,204,4,1)" }}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(251,204,4,0.8)" }}
             whileTap={{ scale: 0.95 }}
             transition={{
               default: { type: "spring", stiffness: 200, damping: 20 },
@@ -170,7 +170,7 @@ export default function Home() {
             }}
             className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-black text-xl md:text-2xl py-4 px-12 rounded-full flex items-center gap-3 border border-yellow-300/50 font-lilita tracking-wide"
           >
-            <span>EMPIEZA A VOTAR →</span>
+            <span>EMPIEZA A VOTAR 🔥</span>
 
             {/* Button Shine Effect */}
             <div className="absolute inset-0 rounded-full border border-white/30" />
