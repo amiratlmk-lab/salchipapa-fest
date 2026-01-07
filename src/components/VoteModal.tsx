@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import Image from "next/image"
 import * as React from "react"
 
 interface VoteModalProps {
@@ -39,9 +40,18 @@ export function VoteModal({ isOpen, onClose, onVote, localeName, isSubmitting }:
                     ✕
                 </button>
 
-                <div className="relative z-10 text-center mb-8">
-                    <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-br from-yellow-300 to-orange-500 mb-2 font-lilita uppercase tracking-wide drop-shadow-sm flex items-center justify-center gap-2">
-                        👑 Estás a un paso de votar
+                <div className="relative z-10 text-center mb-6">
+                    <div className="flex justify-center -mt-6 mb-2">
+                        <Image
+                            src="/crown-modal.png"
+                            alt="Crown"
+                            width={200}
+                            height={100}
+                            className="drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]"
+                        />
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-black text-[#fbcc04] mb-2 font-lilita uppercase tracking-wide drop-shadow-sm leading-none">
+                        Estás a un paso de<br />votar
                     </h2>
                     <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-xs mx-auto">
                         Vas a votar por <span className="text-yellow-400 font-bold">{localeName}</span>.
