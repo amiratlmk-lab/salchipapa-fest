@@ -81,7 +81,7 @@ export default function VotingPage() {
                         initial={{ opacity: 0, scale: 0.8, y: -20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         transition={{ duration: 0.8, type: "spring" }}
-                        className="relative z-20 mb-2 md:-mb-20"
+                        className="relative z-20 -mb-10 md:-mb-20"
                     >
                         <Image src="/crown-header.png" alt="Crown" width={500} height={250} className="w-[280px] md:w-[500px] h-auto drop-shadow-lg mx-auto" />
                     </motion.div>
@@ -91,7 +91,7 @@ export default function VotingPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.8 }}
-                        className="text-2xl md:text-5xl lg:text-7xl text-[#fbcc04] uppercase leading-none tracking-tight mb-8 drop-shadow-md font-lilita max-w-5xl mx-auto"
+                        className="text-2xl md:text-5xl lg:text-7xl text-[#fbcc04] uppercase leading-none tracking-tight mb-6 drop-shadow-md font-lilita max-w-5xl mx-auto"
                     >
                         ¡VOTA POR TU LOCAL FAVORITO<br />DE SALCHIPAPAS EN PANAMÁ!
                     </motion.h1>
@@ -108,7 +108,7 @@ export default function VotingPage() {
                 </div>
 
                 {/* Voting Grid */}
-                <div className="flex-grow px-4 pb-20 mt-2 md:mt-16">
+                <div className="flex-grow px-4 pb-20 mt-6 md:mt-16">
                     <div className="max-w-5xl mx-auto">
                         {loading ? (
                             <div className="flex flex-col items-center justify-center py-20 text-white">
