@@ -1,36 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { LocaleGrid } from "@/components/LocaleGrid";
-import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Particles } from "@/components/Particles";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [locales, setLocales] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { data, error } = await supabase.from('locales').select('*').order('name');
-        if (error) throw error;
-        setLocales(data || []);
-      } catch (err: unknown) {
-        console.error("Error fetching locales:", err);
-        setError((err as Error).message || "Error desconocido");
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
-
-  const scrollToVoting = () => {
-    document.getElementById("voting-section")?.scrollIntoView({ behavior: "smooth" });
+  const handleStartVoting = () => {
+    // Fade out effect or just simple navigation
+    router.push("/votar");
   };
 
   return (
@@ -154,7 +134,7 @@ export default function Home() {
 
           {/* CTA Button */}
           <motion.button
-            onClick={scrollToVoting}
+            onClick={handleStartVoting}
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{
               scale: 1,
@@ -179,33 +159,9 @@ export default function Home() {
 
         </main>
 
-        {/* Voting Section (Locale Grid) */}
-        <section id="voting-section" className="bg-slate-950/80 backdrop-blur-md min-h-screen py-10 px-4 rounded-t-3xl border-t border-white/5 relative z-20">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-white mb-3">Participantes</h2>
-              <div className="h-1.5 w-16 bg-yellow-500 mx-auto rounded-full" />
-            </div>
-
-            {loading ? (
-              <div className="flex flex-col items-center justify-center py-20 text-white">
-                <div className="animate-spin text-4xl mb-4">🍟</div>
-                <p>Cargando participantes...</p>
-              </div>
-            ) : error ? (
-              <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200 text-center max-w-md mx-auto">
-                <p>Error de conexión</p>
-              </div>
-            ) : (
-              <LocaleGrid locales={locales} />
-            )}
-          </div>
-
-          {/* Footer */}
-          <footer className="py-10 text-center text-white text-xs mt-10">
-            <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
-          </footer>
-        </section>
+        <footer className="py-10 text-center text-white text-xs mt-auto relative z-20">
+          <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
+        </footer>
 
       </div>
     </div>
