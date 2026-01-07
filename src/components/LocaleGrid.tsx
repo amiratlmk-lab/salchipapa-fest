@@ -1,11 +1,10 @@
-"use client"
-
 import { useState } from "react"
 import { motion, Variants } from "framer-motion"
 import { LocaleCard } from "./LocaleCard"
 import { VoteModal } from "./VoteModal"
+import { VoteSuccessModal } from "./VoteSuccessModal"
 import { supabase } from "@/lib/supabase"
-import { cn } from "@/lib/utils"
+// Remove unused 'cn' import if it was unused, or keep if needed elsewhere. Keeping strictly what's needed.
 
 // Define types here or import (better to keep simple for now)
 interface Locale {
@@ -23,6 +22,10 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
     const [selectedLocale, setSelectedLocale] = useState<Locale | null>(null)
     const [isVoteModalOpen, setIsVoteModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    // New state for success modal
+    const [showSuccessModal, setShowSuccessModal] = useState(false)
+    const [votedLocalInfo, setVotedLocalInfo] = useState<{ name: string, image: string } | null>(null)
 
     const handleVoteClick = (locale: Locale) => {
         setSelectedLocale(locale)
@@ -45,9 +48,14 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
             if (error) {
                 alert("Error al registrar el voto: " + error.message)
             } else {
-                alert("¡Gracias por tu voto!")
+                // Success flow
+                setVotedLocalInfo({
+                    name: selectedLocale.name,
+                    image: selectedLocale.image_url
+                })
                 setIsVoteModalOpen(false)
                 setSelectedLocale(null)
+                setShowSuccessModal(true)
             }
         } catch (e) {
             console.error(e)
@@ -106,6 +114,13 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
                 onVote={handleVoteSubmit}
                 localeName={selectedLocale?.name || ""}
                 isSubmitting={isSubmitting}
+            />
+
+            <VoteSuccessModal
+                isOpen={showSuccessModal}
+                onClose={() => setShowSuccessModal(false)}
+                localeName={votedLocalInfo?.name || ""}
+                localeImage={votedLocalInfo?.image || ""}
             />
         </>
     )
