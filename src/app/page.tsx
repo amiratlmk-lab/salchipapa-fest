@@ -33,9 +33,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-950 text-white font-[family-name:var(--font-geist-sans)]">
       {/* Header */}
-      <header className="py-12 px-6 text-center bg-gradient-to-b from-yellow-500/10 to-transparent">
-        <div className="text-6xl mb-4 animate-bounce">🍟</div>
-        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-yellow-400 mb-4 drop-shadow-lg">
+      <header className="py-12 px-6 text-center bg-gradient-to-b from-yellow-500/10 to-transparent flex flex-col items-center">
+        <div className="relative w-48 h-48 mb-6 animate-pulse">
+          <img
+            src="/logo.png"
+            alt="Salchipapa Fest 2026 Logo"
+            className="object-contain w-full h-full drop-shadow-xl"
+          />
+        </div>
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-yellow-400 mb-4 drop-shadow-lg hidden">
           Salchipapa Fest
         </h1>
         <p className="text-xl text-slate-300 max-w-2xl mx-auto">
