@@ -59,10 +59,10 @@ export default function Home() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="absolute top-4 left-0 z-10 flex items-start gap-2"
+              className="absolute top-2 -left-4 z-10 flex items-start gap-4"
             >
-              <img src="/sponsor-uni.png" alt="Uni Cola" className="h-14 w-14 object-contain drop-shadow-md" />
-              <img src="/sponsor-epic.png" alt="Epic Marketing" className="h-12 w-12 object-contain drop-shadow-md mt-1" />
+              <img src="/sponsor-uni.png" alt="Uni Cola" className="h-12 w-12 object-contain drop-shadow-md" />
+              <img src="/sponsor-epic.png" alt="Epic Marketing" className="h-10 w-10 object-contain drop-shadow-md mt-1" />
             </motion.div>
 
             {/* Main Logo */}
@@ -70,7 +70,7 @@ export default function Home() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 100, delay: 0.4 }}
-              className="relative w-full h-full z-0 translate-x-4"
+              className="relative w-[75%] h-[75%] z-0 translate-x-6 translate-y-4"
             >
               <img
                 src="/logo.png"
@@ -85,9 +85,9 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.8 }}
-            className="mb-8 -mt-4 relative z-20"
+            className="mb-8 -mt-6 relative z-20"
           >
-            <img src="/crown.png" alt="Crown" className="w-20 h-auto drop-shadow-lg mx-auto" />
+            <img src="/crown.png" alt="Crown" className="w-16 h-auto drop-shadow-lg mx-auto" />
             <div className="h-[1px] w-28 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mx-auto mt-3" />
           </motion.div>
 
