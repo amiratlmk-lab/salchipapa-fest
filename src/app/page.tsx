@@ -138,7 +138,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ delay: 1, duration: 1, ease: "easeOut" }}
-            className="text-3xl md:text-6xl text-[#fbcc04] uppercase leading-none tracking-tight mb-6 -mt-10 drop-shadow-md font-lilita"
+            className="text-3xl md:text-6xl text-[#fbcc04] uppercase leading-none tracking-tight mb-2 -mt-12 drop-shadow-md font-lilita"
           >
             ¡Vota por la mejor<br />salchipapa de Panamá!
           </motion.h1>
@@ -148,7 +148,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
-            className="text-base md:text-lg text-slate-300 font-medium mb-12 max-w-xs mx-auto leading-relaxed"
+            className="text-base md:text-lg text-slate-300 font-medium mb-8 max-w-xs mx-auto leading-relaxed"
           >
             Solo una será coronada como la reina del <span className="font-bold text-white">Salchipapa Fest 2026</span> 🔥👑
           </motion.p>
