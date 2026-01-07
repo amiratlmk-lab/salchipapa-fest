@@ -31,7 +31,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen bg-slate-950 text-white">
       {/* Header */}
       <header className="py-12 px-6 text-center bg-gradient-to-b from-yellow-500/10 to-transparent flex flex-col items-center">
 
