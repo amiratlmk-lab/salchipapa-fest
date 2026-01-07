@@ -66,14 +66,15 @@ export default function Home() {
         {/* Hero Section */}
         <main className="flex-grow flex flex-col items-center justify-center px-4 pt-10 pb-12 text-center max-w-md mx-auto w-full">
 
+
           {/* Integrated Header: Sponsors + Main Logo */}
           <div className="relative w-full max-w-[360px] aspect-square flex justify-center items-center mb-0">
 
             {/* Allied Logos (Positioned Top-Left, Lowered & Closer) */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
+              initial={{ opacity: 0, x: -30, filter: "blur(10px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
               className="absolute top-12 left-1 z-20 flex items-start gap-2"
             >
               <img src="/sponsor-uni.png" alt="Uni Cola" className="h-14 w-14 object-contain drop-shadow-lg" />
@@ -82,24 +83,37 @@ export default function Home() {
 
             {/* Main Logo (Raised, Pushed Right) */}
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 100, delay: 0.4 }}
+              initial={{ scale: 0.5, opacity: 0, y: 20, filter: "blur(10px)" }}
+              animate={{ scale: 1, opacity: 1, y: -0 }}
+              transition={{
+                type: "spring",
+                stiffness: 100,
+                damping: 15,
+                mass: 1,
+                delay: 0.4
+              }}
               className="relative w-[70%] h-[70%] z-10 translate-x-6 -translate-y-8"
             >
-              <img
+              <motion.img
                 src="/logo.png"
                 alt="Salchipapa Fest 2026"
                 className="w-full h-full object-contain drop-shadow-[0_0_25px_rgba(234,179,8,0.4)] filter brightness-110"
+                animate={{ y: [0, -8, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 2 // Wait for entry to finish
+                }}
               />
             </motion.div>
           </div>
 
           {/* Golden Crown */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 1, type: "spring" }}
             className="mb-6 -mt-12 relative z-20"
           >
             <img src="/crown.png" alt="Crown" className="w-[240px] h-auto drop-shadow-lg mx-auto" />
@@ -107,9 +121,9 @@ export default function Home() {
 
           {/* Main Text (H1) */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ delay: 1, duration: 1, ease: "easeOut" }}
             className="text-3xl md:text-5xl font-black text-yellow-400 uppercase leading-none tracking-tight mb-6 drop-shadow-md"
           >
             ¡Vota por la mejor<br />salchipapa de Panamá!
@@ -117,9 +131,9 @@ export default function Home() {
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
             className="text-base md:text-lg text-slate-300 font-medium mb-12 max-w-xs mx-auto leading-relaxed"
           >
             Solo una será coronada como la reina del Salchipapa Fest 2026 🔥👑
@@ -128,12 +142,12 @@ export default function Home() {
           {/* CTA Button */}
           <motion.button
             onClick={scrollToVoting}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            whileHover={{ scale: 1.05 }}
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(245,158,11,0.6)" }}
             whileTap={{ scale: 0.95 }}
-            transition={{ delay: 1.3, type: "spring" }}
-            className="group relative bg-gradient-to-r from-orange-500 to-yellow-500 text-black font-black text-xl py-5 px-12 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.5)] flex items-center gap-3 hover:shadow-[0_0_30px_rgba(245,158,11,0.7)] transition-shadow"
+            transition={{ delay: 1.4, type: "spring", stiffness: 200, damping: 20 }}
+            className="group relative bg-gradient-to-r from-orange-500 to-yellow-500 text-black font-black text-xl py-5 px-12 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.5)] flex items-center gap-3 transition-shadow"
           >
             <span>🔥 EMPIEZA A VOTAR</span>
             <Hand className="w-6 h-6 rotate-90" />
