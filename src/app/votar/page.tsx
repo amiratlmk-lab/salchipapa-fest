@@ -39,7 +39,7 @@ export default function VotingPage() {
                 {/* Mobile Background */}
                 <div className="absolute inset-0 z-0 block md:hidden">
                     <Image
-                        src="/bg-home-mobile.jpg"
+                        src="/bg-home-mobile-4k.jpg"
                         alt="Mobile Background"
                         fill
                         className="object-cover"
