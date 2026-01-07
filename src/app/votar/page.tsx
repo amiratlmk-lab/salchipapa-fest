@@ -98,7 +98,7 @@ export default function VotingPage() {
                         transition={{ delay: 0.4 }}
                         className="text-white text-sm md:text-base max-w-xl mx-auto font-medium leading-relaxed px-4"
                     >
-                        Elige cuál es el mejor negocio especialista en salchipapas del <span className="font-bold">Salchipapa Fest 2026</span> 🏆
+                        Elige cuál es el mejor negocio especialista en salchipapas del <span className="font-bold">Salchipapa Fest 2026</span> <span className="text-2xl ml-1">🏆</span>
                     </motion.p>
                 </div>
 
