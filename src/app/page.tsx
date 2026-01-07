@@ -156,11 +156,19 @@ export default function Home() {
           <motion.button
             onClick={scrollToVoting}
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.05 }}
+            animate={{
+              scale: 1,
+              opacity: 1,
+              y: 0,
+              boxShadow: ["0 0 20px rgba(251,204,4,0.5)", "0 0 60px rgba(251,204,4,0.8)", "0 0 20px rgba(251,204,4,0.5)"]
+            }}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 80px rgba(251,204,4,1)" }}
             whileTap={{ scale: 0.95 }}
-            transition={{ delay: 1.4, type: "spring", stiffness: 200, damping: 20 }}
-            className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-black text-xl md:text-2xl py-4 px-12 rounded-full shadow-[0_0_20px_rgba(251,204,4,0.4)] hover:shadow-[0_0_50px_rgba(251,204,4,0.8)] flex items-center gap-3 transition-all duration-300 border border-yellow-300/50 font-lilita tracking-wide"
+            transition={{
+              default: { type: "spring", stiffness: 200, damping: 20 },
+              boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            }}
+            className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-black text-xl md:text-2xl py-4 px-12 rounded-full flex items-center gap-3 border border-yellow-300/50 font-lilita tracking-wide"
           >
             <span>EMPIEZA A VOTAR →</span>
 
