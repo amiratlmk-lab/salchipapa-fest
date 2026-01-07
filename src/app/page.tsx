@@ -1,33 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LocaleGrid } from "@/components/LocaleGrid";
-
-// FALLBACK DATA - Puesta a mano porque Supabase API está caída (PostgREST Unhealthy)
-const STATIC_LOCALES = [
-  {
-    id: '05a09546-7eb8-4bf9-a5df-bbe59f8149d1',
-    name: 'El Rey del Sabor',
-    image_url: 'https://images.unsplash.com/photo-1623961990059-28356e22bc84?auto=format&fit=crop&q=80&w=600',
-    description: 'La clásica con salsa de la casa.'
-  },
-  {
-    id: '91e2221d-1515-4b29-9df9-6e6b29a2cbec',
-    name: 'Mega Papas',
-    image_url: 'https://images.unsplash.com/photo-1541592106381-b31e9615242c?auto=format&fit=crop&q=80&w=600',
-    description: 'Papas rústicas con salchicha suiza.'
-  },
-  {
-    id: 'ff0b0c9a-d73c-4aca-a1f9-6e2d3306d6fd',
-    name: 'Salchipapa La Bestia',
-    image_url: 'https://images.unsplash.com/photo-1594951664366-5e0441e88863?auto=format&fit=crop&q=80&w=600',
-    description: 'Con extra queso y tocineta crujiente.'
-  }
-];
+import { supabase } from "@/lib/supabase";
 
 export default function Home() {
-  // Usamos los datos estáticos directamente para que cargue SÍ o SÍ.
-  const locales = STATIC_LOCALES;
+  const [locales, setLocales] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data, error } = await supabase.from('locales').select('*').order('name');
+
+        if (error) {
+          throw error;
+        }
+
+        setLocales(data || []);
+      } catch (err: any) {
+        console.error("Error fetching locales:", err);
+        setError(err.message || "Error desconocido");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white font-[family-name:var(--font-geist-sans)]">
@@ -44,12 +45,24 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 pb-20">
-        <LocaleGrid locales={locales} />
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 text-slate-500">
+            <div className="animate-spin text-4xl mb-4">🍟</div>
+            <p>Cargando participantes...</p>
+          </div>
+        ) : error ? (
+          <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200 text-center max-w-md mx-auto">
+            <p className="font-bold mb-2">Error de conexión</p>
+            <p className="text-sm opacity-80">{error}</p>
+          </div>
+        ) : (
+          <LocaleGrid locales={locales} />
+        )}
       </main>
 
       {/* Footer */}
       <footer className="py-8 text-center text-slate-600 text-sm border-t border-slate-900">
-        <p>© 2026 Salchipapa Fest • Votación segura • Modo Emergencia Activo</p>
+        <p>© 2026 Salchipapa Fest • Votación segura • v1.3 (Live)</p>
       </footer>
     </div>
   );
