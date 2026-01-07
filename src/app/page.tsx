@@ -137,16 +137,17 @@ export default function Home() {
             onClick={handleStartVoting}
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{
-              scale: 1,
+              scale: [1, 1.05, 1],
               opacity: 1,
               y: 0,
               boxShadow: ["0 0 10px rgba(251,204,4,0.25)", "0 0 30px rgba(251,204,4,0.45)", "0 0 10px rgba(251,204,4,0.25)"]
             }}
-            whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(251,204,4,0.8)" }}
+            whileHover={{ scale: 1.1, boxShadow: "0 0 50px rgba(251,204,4,0.8)" }}
             whileTap={{ scale: 0.95 }}
             transition={{
               default: { type: "spring", stiffness: 200, damping: 20 },
-              boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+              boxShadow: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+              scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
             }}
             className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-black text-xl md:text-2xl py-4 px-12 rounded-full flex items-center gap-3 border border-yellow-300/50 font-lilita tracking-wide mt-4"
           >
