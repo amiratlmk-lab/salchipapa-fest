@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, Variants } from "framer-motion"
 import { LocaleCard } from "./LocaleCard"
 import { VoteModal } from "./VoteModal"
 import { supabase } from "@/lib/supabase"
@@ -65,7 +65,7 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
         )
     }
 
-    const container = {
+    const container: Variants = {
         hidden: { opacity: 0 },
         show: {
             opacity: 1,
@@ -75,7 +75,7 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
         }
     }
 
-    const item = {
+    const item: Variants = {
         hidden: { opacity: 0, y: 50 },
         show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50 } }
     }
