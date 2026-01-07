@@ -74,7 +74,7 @@ export default function Home() {
       <div className="relative z-10 flex flex-col min-h-screen">
 
         {/* Hero Section */}
-        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-10 pb-12 text-center max-w-lg mx-auto w-full">
+        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-10 pb-12 text-center max-w-lg md:max-w-4xl mx-auto w-full">
 
 
           {/* Integrated Header: Sponsors + Main Logo */}
@@ -148,7 +148,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
-            className="text-base md:text-lg text-slate-300 font-medium mb-8 max-w-xs mx-auto leading-relaxed"
+            className="text-base md:text-lg text-slate-300 font-medium mb-8 max-w-xs md:max-w-2xl mx-auto leading-relaxed"
           >
             Solo una será coronada como la reina del <span className="font-bold text-white">Salchipapa Fest 2026</span> 🔥👑
           </motion.p>
