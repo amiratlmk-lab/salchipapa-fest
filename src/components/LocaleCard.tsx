@@ -26,7 +26,7 @@ export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
             <div className="absolute -top-10 -right-10 w-20 h-20 bg-yellow-400/20 blur-2xl rounded-full pointer-events-none group-hover:bg-yellow-400/40 transition-all" />
 
             {/* Rank Badge */}
-            <div className={`absolute top-2 left-2 z-10 text-[10px] md:text-sm font-bold w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center shadow-lg border-2 ${badgeStyle}`}>
+            <div className={`absolute top-2 left-2 z-10 text-[10px] md:text-sm font-bold w-5 h-5 md:w-7 md:h-7 rounded-full flex items-center justify-center shadow-lg border border-orange-500/50 bg-black/80 text-white/90`}>
                 {rank}
             </div>
 
@@ -53,7 +53,7 @@ export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
                 </div>
 
                 <Button
-                    className="w-full bg-gradient-to-r from-orange-600 to-yellow-500 text-white text-[10px] md:text-base font-black italic tracking-widest rounded-full hover:scale-105 transition-transform shadow-[0_0_10px_rgba(234,179,8,0.4)] border border-yellow-400/50 uppercase h-6 md:h-10 py-0"
+                    className="w-full bg-gradient-to-r from-orange-600 to-yellow-500 text-white text-[10px] md:text-base font-black italic tracking-widest rounded-full hover:scale-105 transition-transform shadow-[0_0_10px_rgba(234,179,8,0.2)] border border-yellow-400/30 uppercase h-6 md:h-10 py-0"
                     onClick={() => onVoteClick(locale)}
                 >
                     🔥 <span className="hidden md:inline">¡VOTAR!</span><span className="md:hidden">VOTAR</span>

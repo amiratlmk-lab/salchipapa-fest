@@ -103,7 +103,7 @@ export default function VotingPage() {
                 </div>
 
                 {/* Voting Grid */}
-                <div className="flex-grow px-4 pb-20 mt-8">
+                <div className="flex-grow px-4 pb-20 mt-12">
                     <div className="max-w-5xl mx-auto">
                         {loading ? (
                             <div className="flex flex-col items-center justify-center py-20 text-white">
