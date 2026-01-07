@@ -59,8 +59,10 @@ export default function Home() {
         <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-yellow-400 mb-4 drop-shadow-lg hidden">
           Salchipapa Fest
         </h1>
-        <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-          Vota por tu salchipapa favorita. ¡Elige el sabor que manda en la ciudad!
+        <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          Vota por tu salchipapa favorita.
+          <br className="block mb-2" />
+          <span className="text-yellow-400 font-medium">¡Elige el sabor que manda en la ciudad!</span>
         </p>
       </header>
 
