@@ -18,12 +18,7 @@ export default function VotingPage() {
             try {
                 const { data, error } = await supabase.from('locales').select('*').order('name');
                 if (error) throw error;
-                const realData = data || [];
-                const duplicatedData = [
-                    ...realData,
-                    ...realData.map((l: any) => ({ ...l, id: `${l.id}-copy` }))
-                ];
-                setLocales(duplicatedData);
+                setLocales(data || []);
             } catch (err: unknown) {
                 console.error("Error fetching locales:", err);
                 setError((err as Error).message || "Error desconocido");
