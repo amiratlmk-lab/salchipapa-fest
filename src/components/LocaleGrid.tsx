@@ -60,7 +60,7 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
     if (locales.length === 0) {
         return (
             <div className="text-center py-20">
-                <h2 className="text-2xl font-bold text-slate-500">No hay participantes registrados aún.</h2>
+                <h2 className="text-2xl font-bold text-white">No hay participantes registrados aún.</h2>
             </div>
         )
     }

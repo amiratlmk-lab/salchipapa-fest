@@ -148,7 +148,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
-            className="text-base md:text-lg text-slate-300 font-medium mb-8 max-w-xs md:max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-lg text-white font-medium mb-8 max-w-xs md:max-w-2xl mx-auto leading-relaxed"
           >
             Solo una será coronada como la reina del <span className="font-bold text-white">Salchipapa Fest 2026</span> 🔥👑
           </motion.p>
@@ -181,7 +181,7 @@ export default function Home() {
             </div>
 
             {loading ? (
-              <div className="flex flex-col items-center justify-center py-20 text-slate-500">
+              <div className="flex flex-col items-center justify-center py-20 text-white">
                 <div className="animate-spin text-4xl mb-4">🍟</div>
                 <p>Cargando participantes...</p>
               </div>
@@ -195,7 +195,7 @@ export default function Home() {
           </div>
 
           {/* Footer */}
-          <footer className="py-10 text-center text-slate-500 text-xs mt-10">
+          <footer className="py-10 text-center text-white text-xs mt-10">
             <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
           </footer>
         </section>
