@@ -36,7 +36,7 @@ export default function Home() {
     <div className="min-h-screen bg-slate-950 text-white font-sans relative overflow-x-hidden selection:bg-yellow-500/30">
 
       {/* Background Layer */}
-      <div className="fixed inset-0 z-0">
+      <div className="fixed top-0 left-0 w-full h-[100svh] md:h-screen md:inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10" /> {/* Dark Overlay */}
 
         {/* Mobile Background (Vertical) */}
