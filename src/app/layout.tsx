@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Lilita_One } from "next/font/google";
 import "./globals.css";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "700", "900"],
+  weight: ["400", "500", "700", "900"],
+  variable: "--font-montserrat",
+});
+
+const lilita = Lilita_One({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-lilita",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${montserrat.className} antialiased bg-slate-950 text-white`}
+        className={`${montserrat.variable} ${lilita.variable} font-sans antialiased bg-slate-950 text-white`}
       >
         {children}
       </body>
