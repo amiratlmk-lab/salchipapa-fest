@@ -1,9 +1,12 @@
+```typescript
 "use client"
 
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { Share2, BarChart2, CheckCircle2 } from "lucide-react"
+import { Share2, BarChart2, CheckCircle2, X } from "lucide-react"
+import { useState } from "react"
+import { ShareModal } from "./ShareModal"
 
 interface VoteSuccessModalProps {
     isOpen: boolean
@@ -13,6 +16,8 @@ interface VoteSuccessModalProps {
 }
 
 export function VoteSuccessModal({ isOpen, onClose, localeName, localeImage }: VoteSuccessModalProps) {
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+
     if (!isOpen) return null
 
     return (
@@ -79,7 +84,7 @@ export function VoteSuccessModal({ isOpen, onClose, localeName, localeImage }: V
                     <div className="w-full mt-8 space-y-4 px-4">
                         <Button
                             className="w-full h-14 bg-gradient-to-r from-orange-600 to-yellow-500 hover:from-orange-500 hover:to-yellow-400 text-white text-lg font-black uppercase tracking-wider rounded-full shadow-[0_0_25px_rgba(234,88,12,0.4)] border border-yellow-300/30 transform transition-all hover:scale-[1.02] active:scale-[0.98]"
-                            onClick={() => window.location.href = `/ranking?votedName=${encodeURIComponent(localeName)}`}
+                            onClick={() => window.location.href = `/ ranking ? votedName = ${ encodeURIComponent(localeName) } `}
                         >
                             <span className="flex items-center gap-2">
                                 🔥 Ver Ranking
@@ -88,25 +93,42 @@ export function VoteSuccessModal({ isOpen, onClose, localeName, localeImage }: V
 
                         <Button
                             variant="outline"
-                            className="w-full h-12 bg-slate-900/50 border-slate-700 hover:bg-slate-800 text-slate-300 font-bold uppercase tracking-wide rounded-full backdrop-blur-sm"
-                            onClick={() => {
-                                if (navigator.share) {
-                                    navigator.share({
-                                        title: 'Salchipapa Fest 2026',
-                                        text: `Acabo de votar por ${localeName} en el Salchipapa Fest!`,
-                                        url: window.location.href
-                                    })
-                                }
-                            }}
+                            className="w-full h-14 border-2 border-slate-700 bg-black/50 text-slate-300 hover:bg-slate-800 hover:text-white rounded-full font-bold uppercase tracking-wide hover:border-slate-500 transition-all"
+                            onClick={() => setIsShareModalOpen(true)}
                         >
                             <span className="flex items-center gap-2">
-                                <Share2 className="w-4 h-4" /> Compartir Evento
+                                <Share2 className="w-5 h-5" />
+                                Compartir Evento
                             </span>
                         </Button>
                     </div>
 
+                    {/* Footer / Close Button */}
+                    <div className="w-full mt-6 flex justify-center">
+                        <button
+                            onClick={onClose}
+                            className="text-slate-500 hover:text-white text-sm font-medium transition-colors uppercase tracking-widest hover:underline decoration-yellow-500/50 underline-offset-4"
+                        >
+                            Volver al Inicio
+                        </button>
+                    </div>
+
+                    {/* Close Icon Absolute */}
+                    <button
+                        onClick={onClose}
+                        className="absolute top-4 right-4 text-slate-500 hover:text-white p-2"
+                    >
+                        <X className="w-6 h-6" />
+                    </button>
                 </div>
             </div>
+
+            <ShareModal
+                isOpen={isShareModalOpen}
+                onClose={() => setIsShareModalOpen(false)}
+                votedLocalName={localeName}
+                votedLocalImage={localeImage}
+            />
         </AnimatePresence>
     )
 }
