@@ -86,7 +86,7 @@ export default function VotingPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.8 }}
-                        className="text-3xl md:text-5xl text-[#fbcc04] uppercase leading-none tracking-tight mb-4 drop-shadow-md font-lilita max-w-5xl mx-auto"
+                        className="text-2xl md:text-5xl text-[#fbcc04] uppercase leading-none tracking-tight mb-4 drop-shadow-md font-lilita max-w-5xl mx-auto"
                     >
                         ¡VOTA POR TU LOCAL FAVORITO<br />DE SALCHIPAPAS EN PANAMÁ!
                     </motion.h1>
