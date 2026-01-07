@@ -74,7 +74,7 @@ export default function Home() {
       <div className="relative z-10 flex flex-col min-h-screen">
 
         {/* Hero Section */}
-        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-10 pb-12 text-center max-w-md mx-auto w-full">
+        <main className="flex-grow flex flex-col items-center justify-center px-4 pt-10 pb-12 text-center max-w-lg mx-auto w-full">
 
 
           {/* Integrated Header: Sponsors + Main Logo */}
@@ -138,7 +138,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ delay: 1, duration: 1, ease: "easeOut" }}
-            className="text-3xl md:text-5xl font-black text-yellow-400 uppercase leading-none tracking-tight mb-6 drop-shadow-md"
+            className="text-3xl md:text-5xl font-black text-[#fbcc04] uppercase leading-none tracking-tight mb-6 drop-shadow-md"
           >
             ¡Vota por la mejor<br />salchipapa de Panamá!
           </motion.h1>
