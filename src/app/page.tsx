@@ -50,6 +50,7 @@ export default function Home() {
             className="object-cover"
             priority
             quality={100}
+            unoptimized
           />
         </div>
 
@@ -62,6 +63,7 @@ export default function Home() {
             className="object-contain"
             priority
             quality={100}
+            unoptimized
           />
         </div>
 
