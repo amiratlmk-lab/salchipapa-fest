@@ -15,8 +15,7 @@ interface LocaleCardProps {
 }
 
 export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
-    // Uniform badge style for all items (1, 2, 3...)
-    const badgeStyle = "bg-black text-white font-black border-orange-500";
+
 
     return (
         <div className="group relative overflow-hidden rounded-xl border border-orange-500/30 bg-black/60 backdrop-blur-sm transition-all duration-300 flex flex-col items-center p-2 md:p-6 shadow-[0_0_15px_rgba(234,88,12,0.1)] hover:shadow-[0_0_30px_rgba(234,88,12,0.3)] hover:border-orange-500/80">
