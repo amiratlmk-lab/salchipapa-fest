@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -9,7 +9,7 @@ import { getRanking, RankedLocale } from "@/actions/ranking"
 import { Particles } from "@/components/Particles"
 import { useSearchParams } from "next/navigation"
 
-export default function RankingPage() {
+function RankingContent() {
     const [ranking, setRanking] = useState<RankedLocale[]>([])
     const [loading, setLoading] = useState(true)
     const searchParams = useSearchParams()
@@ -84,8 +84,8 @@ export default function RankingPage() {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: index * 0.1 }}
                                     className={`relative flex items-center gap-4 p-3 md:p-4 rounded-xl border transition-all ${index < 3
-                                            ? "bg-gradient-to-r from-yellow-900/10 to-transparent border-yellow-500/30"
-                                            : "bg-white/5 border-white/5"
+                                        ? "bg-gradient-to-r from-yellow-900/10 to-transparent border-yellow-500/30"
+                                        : "bg-white/5 border-white/5"
                                         }`}
                                 >
                                     {/* Rank */}
@@ -156,5 +156,17 @@ export default function RankingPage() {
                 </div>
             </main>
         </div>
+    )
+}
+
+export default function RankingPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-slate-950 flex items-center justify-center text-yellow-500">
+                <Trophy className="w-10 h-10 animate-bounce" />
+            </div>
+        }>
+            <RankingContent />
+        </Suspense>
     )
 }
