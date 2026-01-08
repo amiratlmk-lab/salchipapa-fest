@@ -3,9 +3,7 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { Share2, CheckCircle2, X } from "lucide-react"
-import { useState } from "react"
-import { ShareModal } from "./ShareModal"
+import { CheckCircle2, X } from "lucide-react"
 
 interface VoteSuccessModalProps {
     isOpen: boolean
@@ -15,7 +13,7 @@ interface VoteSuccessModalProps {
 }
 
 export function VoteSuccessModal({ isOpen, onClose, localeName, localeImage }: VoteSuccessModalProps) {
-    const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+
 
     if (!isOpen) return null
 
@@ -90,16 +88,7 @@ export function VoteSuccessModal({ isOpen, onClose, localeName, localeImage }: V
                             </span>
                         </Button>
 
-                        <Button
-                            variant="outline"
-                            className="w-full h-14 border-2 border-slate-700 bg-black/50 text-slate-300 hover:bg-slate-800 hover:text-white rounded-full font-bold uppercase tracking-wide hover:border-slate-500 transition-all"
-                            onClick={() => setIsShareModalOpen(true)}
-                        >
-                            <span className="flex items-center gap-2">
-                                <Share2 className="w-5 h-5" />
-                                Compartir Evento
-                            </span>
-                        </Button>
+
                     </div>
 
                     {/* Footer / Close Button */}
@@ -122,12 +111,7 @@ export function VoteSuccessModal({ isOpen, onClose, localeName, localeImage }: V
                 </div>
             </div>
 
-            <ShareModal
-                isOpen={isShareModalOpen}
-                onClose={() => setIsShareModalOpen(false)}
-                votedLocalName={localeName}
-                votedLocalImage={localeImage}
-            />
+
         </AnimatePresence>
     )
 }
