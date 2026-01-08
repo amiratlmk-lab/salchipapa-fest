@@ -143,6 +143,18 @@ export async function deleteLocale(id: string) {
     const isAuth = await checkAuth()
     if (!isAuth) return { success: false, error: "No autorizado" }
 
+    // First delete all votes associated with this locale
+    const { error: votesError } = await supabase
+        .from("votes")
+        .delete()
+        .eq("locale_id", id)
+
+    if (votesError) {
+        console.error("Error deleting votes:", votesError)
+        return { success: false, error: "Error borrando votos asociados: " + votesError.message }
+    }
+
+    // Then delete the locale
     const { error } = await supabase
         .from("locales")
         .delete()
