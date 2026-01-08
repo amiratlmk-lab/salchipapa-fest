@@ -169,7 +169,6 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
 
                                         <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <Button
-                                                size="sm"
                                                 variant="ghost"
                                                 onClick={() => startEditing(locale)}
                                                 className="h-8 w-8 p-0 text-blue-400 hover:text-blue-300 hover:bg-blue-950/30"
@@ -178,7 +177,6 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                                                 <Pencil className="w-4 h-4" />
                                             </Button>
                                             <Button
-                                                size="sm"
                                                 variant="ghost"
                                                 onClick={() => handleDelete(locale.id, locale.name)}
                                                 className="h-8 w-8 p-0 text-red-400 hover:text-red-300 hover:bg-red-950/30"
