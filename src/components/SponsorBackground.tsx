@@ -9,13 +9,17 @@ export function SponsorBackground() {
     // User said "rain effect" or "escalator". Let's make them all move down for "rain" effect, maybe with different speeds for depth.
     // actually "escalator" might imply up. Let's do a slow consistent flow. Vertical Parallax.
 
-    // Let's optimize: 5 columns.
+    // Let's optimize: 9 columns for desktop to fill the width.
     const columns = [
         { duration: 25, delay: 0 },
         { duration: 35, delay: -5 },
         { duration: 28, delay: -10 },
         { duration: 40, delay: -15 },
         { duration: 30, delay: -2 },
+        { duration: 32, delay: -8 },
+        { duration: 22, delay: -12 },
+        { duration: 38, delay: -4 },
+        { duration: 26, delay: -6 },
     ]
 
     // Create a long strip of alternating logos
@@ -23,9 +27,19 @@ export function SponsorBackground() {
 
     return (
         <div className="absolute inset-0 z-[5] overflow-hidden opacity-[0.60] pointer-events-none">
-            <div className="flex justify-between w-full h-full max-w-7xl mx-auto px-4 md:px-20">
-                {columns.map((col, titleIndex) => (
-                    <div key={titleIndex} className="relative h-full w-24 md:w-32 flex flex-col gap-12 md:gap-20 items-center">
+            {/* Expanded width for desktop to reach edges as requested */}
+            <div className="flex justify-between w-full h-full max-w-[95%] mx-auto px-2 md:px-4">
+                {columns.map((col, index) => (
+                    <div
+                        key={index}
+                        // Hide some columns on mobile to prevent overcrowding, show all on desktop
+                        className={`relative h-full w-20 md:w-32 flex-col gap-12 md:gap-20 items-center ${
+                            // Show columns 0, 4, 8 on mobile (3 columns), hide others
+                            // Or just hide every other one? Let's keep it simple:
+                            // Desktop shows all 9. Mobile shows maybe 3 or 4.
+                            index % 2 === 0 ? 'flex' : 'hidden md:flex'
+                            }`}
+                    >
                         {/* We need two sets of the logo strip to create a seamless loop */}
                         {/* Using pure CSS animation might be smoother for infinite loop than Framer Motion layout shift, but FM is easier to control */}
 
