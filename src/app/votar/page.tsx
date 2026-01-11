@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Particles } from "@/components/Particles";
+import { SponsorBackground } from "@/components/SponsorBackground";
 
 export default function VotingPage() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,6 +64,7 @@ export default function VotingPage() {
                 </div>
 
                 <Particles />
+                <SponsorBackground />
             </div>
 
             {/* Main Content */}
