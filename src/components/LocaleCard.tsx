@@ -25,7 +25,7 @@ export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
             <div className="absolute -top-10 -right-10 w-20 h-20 bg-yellow-400/20 blur-2xl rounded-full pointer-events-none group-hover:bg-yellow-400/40 transition-all" />
 
             {/* Rank Badge */}
-            <div className={`absolute top-2 left-2 z-10 text-[10px] md:text-sm font-bold w-5 h-5 md:w-7 md:h-7 rounded-full flex items-center justify-center shadow-lg border border-orange-500/50 bg-black/80 text-white/90`}>
+            <div className={`absolute top-2 left-2 z-10 text-[10px] md:text-sm font-bold w-5 h-5 md:w-7 md:h-7 rounded-full flex items-center justify-center shadow-lg border border-orange-500/50 bg-gradient-to-r from-orange-600 to-yellow-500 text-white`}>
                 {rank}
             </div>
 
