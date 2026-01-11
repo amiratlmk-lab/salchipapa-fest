@@ -9,6 +9,8 @@ import { getRanking, RankedLocale } from "@/actions/ranking"
 import { Particles } from "@/components/Particles"
 import { useSearchParams } from "next/navigation"
 
+import { SponsorBackground } from "@/components/SponsorBackground"
+
 function RankingContent() {
     const [ranking, setRanking] = useState<RankedLocale[]>([])
     const [loading, setLoading] = useState(true)
@@ -68,6 +70,7 @@ function RankingContent() {
                 </div>
                 <div className="absolute inset-0 bg-black/60" /> {/* Slight overlay for readability */}
                 <Particles />
+                <SponsorBackground />
             </div>
 
             <main className="relative z-10 flex flex-col items-center justify-center min-h-screen py-8 px-4">
@@ -115,8 +118,8 @@ function RankingContent() {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: index * 0.05 }}
                                     className={`relative flex items-center gap-3 p-3 rounded-lg border transition-all ${index < 3
-                                            ? "bg-gradient-to-r from-yellow-900/20 to-transparent border-yellow-500/30"
-                                            : "bg-transparent border-slate-800 hover:bg-white/5"
+                                        ? "bg-gradient-to-r from-yellow-900/20 to-transparent border-yellow-500/30"
+                                        : "bg-transparent border-slate-800 hover:bg-white/5"
                                         }`}
                                 >
                                     {/* Rank Number */}
