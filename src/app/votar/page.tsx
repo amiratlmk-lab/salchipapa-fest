@@ -104,6 +104,24 @@ export default function VotingPage() {
                     >
                         Elige cuál es el mejor negocio especialista en salchipapas del <span className="font-bold">Salchipapa Fest 2026</span> <span className="text-3xl ml-1">🏆</span>
                     </motion.p>
+
+                    {/* View Ranking Button */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 }}
+                        className="flex justify-center mt-8"
+                    >
+                        <button
+                            onClick={() => window.location.href = "/ranking"} // Using simple navigation or router if available
+                            className="group relative bg-gradient-to-r from-orange-600 to-yellow-400 text-white text-lg md:text-xl py-3 px-10 rounded-full flex items-center gap-2 border border-yellow-300/50 font-lilita tracking-wide shadow-[0_0_15px_rgba(234,179,8,0.4)] hover:scale-105 hover:shadow-[0_0_30px_rgba(234,179,8,0.6)] transition-all duration-300"
+                        >
+                            <span>VER RANKING 🏆</span>
+                            {/* Button Shine Effect */}
+                            <div className="absolute inset-0 rounded-full border border-white/30" />
+                            <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 rounded-t-full" />
+                        </button>
+                    </motion.div>
                 </div>
 
                 {/* Voting Grid */}

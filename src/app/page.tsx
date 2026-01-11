@@ -149,17 +149,6 @@ export default function Home() {
             <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 rounded-t-full" />
           </motion.button>
 
-          {/* View Ranking Secondary Button */}
-          <motion.button
-            onClick={() => router.push("/ranking")}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 1 }}
-            className="mt-6 flex items-center gap-2 text-yellow-400/80 hover:text-yellow-300 text-sm md:text-base font-bold uppercase tracking-widest hover:underline decoration-yellow-500/50 underline-offset-4 transition-all"
-          >
-            <span className="text-lg">🏆</span> Ver Ranking
-          </motion.button>
-
           <footer className="pb-4 pt-2 md:py-10 text-center text-white text-xs mt-2 md:mt-8 relative z-20">
             <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
           </footer>
