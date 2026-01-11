@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Particles } from "@/components/Particles";
+import { SponsorBackground } from "@/components/SponsorBackground";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -47,6 +48,7 @@ export default function Home() {
         </div>
 
         <Particles />
+        <SponsorBackground />
       </div>
 
       {/* Main Content Layer */}
@@ -59,18 +61,7 @@ export default function Home() {
           {/* Integrated Header: Sponsors + Main Logo */}
           <div className="relative w-full max-w-[320px] md:max-w-[360px] aspect-square flex justify-center items-center mb-6">
 
-            {/* Allied Logos (Positioned Top-Left, Lowered & Closer) */}
-            <motion.div
-              initial={{ opacity: 0, x: -30, filter: "blur(10px)" }}
-              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-              className="absolute top-12 left-1 z-20 flex items-start gap-2"
-            >
-              <Image src="/sponsor-uni.png" alt="Uni Cola" width={56} height={56} className="object-contain drop-shadow-lg" />
-              <Image src="/sponsor-epic.png" alt="Epic Marketing" width={48} height={48} className="object-contain drop-shadow-lg mt-1" />
-            </motion.div>
-
-            {/* Main Logo (Raised, Pushed Right) */}
+            {/* Main Logo (Centered & Larger since sponsors are gone) */}
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -78,9 +69,9 @@ export default function Home() {
                 type: "spring",
                 stiffness: 260,
                 damping: 20,
-                delay: 0.4
+                delay: 0.2
               }}
-              className="relative w-[70%] h-[70%] z-10 translate-x-6 -translate-y-2"
+              className="relative w-[90%] h-[90%] z-10"
             >
               <motion.div
                 className="w-full h-full relative"
