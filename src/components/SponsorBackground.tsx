@@ -19,10 +19,10 @@ export function SponsorBackground() {
     ]
 
     // Create a long strip of alternating logos
-    const logos = Array(10).fill(null).map((_, i) => i % 2 === 0 ? "/sponsor-uni.png" : "/sponsor-epic.png")
+    const logos = Array(10).fill(null).map((_, i) => i % 2 === 0 ? "/watermark-uni.png" : "/watermark-epic.png")
 
     return (
-        <div className="absolute inset-0 z-[1] overflow-hidden opacity-[0.03] pointer-events-none">
+        <div className="absolute inset-0 z-[5] overflow-hidden opacity-[0.15] pointer-events-none">
             <div className="flex justify-between w-full h-full max-w-7xl mx-auto px-4 md:px-20">
                 {columns.map((col, titleIndex) => (
                     <div key={titleIndex} className="relative h-full w-24 md:w-32 flex flex-col gap-12 md:gap-20 items-center">
