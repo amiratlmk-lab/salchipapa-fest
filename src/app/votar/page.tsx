@@ -145,6 +145,7 @@ export default function VotingPage() {
                 {/* Footer */}
                 <footer className="py-8 text-center text-white text-xs z-20 relative">
                     <p>© 2026 Salchipapa Fest • Votación segura • Panamá</p>
+                    <p className="text-[10px] text-white/50 mt-1">Powered by Wai Harrington</p>
                 </footer>
 
             </div>
