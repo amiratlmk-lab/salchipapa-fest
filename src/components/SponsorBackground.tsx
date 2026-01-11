@@ -41,7 +41,7 @@ export function SponsorBackground() {
                         >
                             {/* Tripling the content to ensure coverage during scroll */}
                             {[...logos, ...logos, ...logos].map((src, i) => (
-                                <div key={i} className="relative w-16 h-16 md:w-24 md:h-24 opacity-80 grayscale">
+                                <div key={i} className="relative w-16 h-16 md:w-24 md:h-24 opacity-80">
                                     <Image
                                         src={src}
                                         alt="sponsor"
