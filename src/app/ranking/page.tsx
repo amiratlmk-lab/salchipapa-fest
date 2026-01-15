@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, Suspense } from "react"
+import { redirect } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -12,6 +13,9 @@ import { useSearchParams } from "next/navigation"
 import { SponsorBackground } from "@/components/SponsorBackground"
 
 function RankingContent() {
+    // Temporarily disabled at the request of the client
+    redirect("/")
+
     const [ranking, setRanking] = useState<RankedLocale[]>([])
     const [loading, setLoading] = useState(true)
     const searchParams = useSearchParams()
