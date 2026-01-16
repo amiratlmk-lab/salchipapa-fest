@@ -17,8 +17,17 @@ export default async function AdminPage() {
     // Note: RLS must allow reading these tables. 
     // Votes are public read in our setup, Locales are public read.
     const { data: locales } = await supabase.from('locales').select('*').order('name')
-    // Override Supabase's default 1000-record limit to fetch all votes
-    const { data: votes } = await supabase.from('votes').select('*').limit(100000)
+
+    // Fetch ALL votes - Supabase has a default limit of 1000, so we need to override it
+    // Using range(0, 999999) to ensure we get all records
+    const { data: votes, error: votesError } = await supabase
+        .from('votes')
+        .select('*', { count: 'exact' })
+        .range(0, 999999)
+
+    if (votesError) {
+        console.error('Error fetching votes:', votesError)
+    }
 
     return (
         <div className="min-h-screen bg-slate-950 text-white">
