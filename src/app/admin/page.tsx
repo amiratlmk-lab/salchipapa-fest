@@ -17,7 +17,8 @@ export default async function AdminPage() {
     // Note: RLS must allow reading these tables. 
     // Votes are public read in our setup, Locales are public read.
     const { data: locales } = await supabase.from('locales').select('*').order('name')
-    const { data: votes } = await supabase.from('votes').select('*')
+    // Override Supabase's default 1000-record limit to fetch all votes
+    const { data: votes } = await supabase.from('votes').select('*').limit(100000)
 
     return (
         <div className="min-h-screen bg-slate-950 text-white">
