@@ -152,12 +152,27 @@ export default function Home() {
           {/* View Ranking Button */}
           <motion.button
             onClick={() => router.push("/ranking")}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4, duration: 1 }}
-            className="mt-6 text-white/90 text-lg md:text-xl font-bold border-b border-yellow-500/30 pb-1 hover:text-yellow-400 hover:border-yellow-400 transition-all flex items-center gap-2 group"
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{
+              scale: [1, 1.05, 1],
+              opacity: 1,
+              y: 0,
+              boxShadow: ["0 0 10px rgba(251,204,4,0.25)", "0 0 30px rgba(251,204,4,0.45)", "0 0 10px rgba(251,204,4,0.25)"]
+            }}
+            whileHover={{ scale: 1.1, boxShadow: "0 0 50px rgba(251,204,4,0.8)" }}
+            whileTap={{ scale: 0.95 }}
+            transition={{
+              default: { type: "spring", stiffness: 200, damping: 20 },
+              boxShadow: { duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 },
+              scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }
+            }}
+            className="group relative bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xl md:text-2xl py-4 px-12 rounded-full flex items-center gap-3 border border-yellow-300/50 font-lilita tracking-wide mt-6"
           >
-            <span>VER RANKING</span> <span className="group-hover:scale-125 transition-transform display-inline-block">🏆</span>
+            <span>VER RANKING 🏆</span>
+
+            {/* Button Shine Effect */}
+            <div className="absolute inset-0 rounded-full border border-white/30" />
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 rounded-t-full" />
           </motion.button>
 
           <footer className="pb-4 pt-2 md:py-10 text-center text-white text-xs mt-2 md:mt-8 relative z-20">
