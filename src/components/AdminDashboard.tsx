@@ -247,7 +247,7 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                                             <span className="font-medium">{locale.name}</span>
                                         </div>
 
-                                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="flex items-center gap-2 transition-opacity">
                                             <Button
                                                 variant="ghost"
                                                 onClick={() => setInjectingLocale(locale)}
