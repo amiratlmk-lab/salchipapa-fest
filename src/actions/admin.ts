@@ -168,3 +168,39 @@ export async function deleteLocale(id: string) {
     revalidatePath("/admin")
     return { success: true }
 }
+
+export async function injectVotes(localeId: string, amount: number) {
+    const isAuth = await checkAuth()
+    if (!isAuth) return { success: false, error: "No autorizado" }
+
+    if (!amount || amount <= 0) return { success: false, error: "Cantidad inválida" }
+    if (amount > 10000) return { success: false, error: "Máximo 10,000 votos por inyección" }
+
+    // Create array of votes for batch insert
+    const votes = Array.from({ length: amount }).map(() => ({
+        locale_id: localeId,
+        voter_name: 'Voto Manual Admin',
+        voter_contact: 'admin@system.internal'
+    }))
+
+    // Supabase allows batch inserts
+    // We might need to chunk if it's too large, but 10,000 should be okay for most standard configs
+    // If not, we can chunk it safely to 1000 at a time
+
+    const CHUNK_SIZE = 1000
+    for (let i = 0; i < votes.length; i += CHUNK_SIZE) {
+        const chunk = votes.slice(i, i + CHUNK_SIZE)
+        const { error } = await supabase
+            .from("votes")
+            .insert(chunk)
+
+        if (error) {
+            console.error("Injection error:", error)
+            return { success: false, error: `Error en inyección (lote ${i}): ` + error.message }
+        }
+    }
+
+    revalidatePath("/")
+    revalidatePath("/admin")
+    return { success: true }
+}

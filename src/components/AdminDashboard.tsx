@@ -1,11 +1,11 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { addLocale, deleteLocale, editLocale } from "@/actions/admin"
+import { addLocale, deleteLocale, editLocale, injectVotes } from "@/actions/admin"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { motion, AnimatePresence } from "framer-motion"
-import { Pencil, Trash2, X, Plus, Save } from "lucide-react"
+import { Pencil, Trash2, X, Plus, Save, Syringe } from "lucide-react"
 
 interface AdminDashboardProps {
     locales: any[]
@@ -15,7 +15,9 @@ interface AdminDashboardProps {
 export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
     const [isSaving, setIsSaving] = useState(false)
     const [editingLocale, setEditingLocale] = useState<any | null>(null)
+    const [injectingLocale, setInjectingLocale] = useState<any | null>(null)
     const formRef = useRef<HTMLFormElement>(null)
+    const injectFormRef = useRef<HTMLFormElement>(null)
 
     // Calculate Stats
     const totalVotes = votes.length
@@ -52,8 +54,27 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
         }
     }
 
+    const handleInject = async (formData: FormData) => {
+        if (!injectingLocale) return
+        const amount = parseInt(formData.get("amount") as string)
+
+        if (!confirm(`¿Estás seguro de inyectar ${amount} votos a ${injectingLocale.name}?`)) return
+
+        setIsSaving(true)
+        const res = await injectVotes(injectingLocale.id, amount)
+        setIsSaving(false)
+
+        if (res.success) {
+            setInjectingLocale(null)
+            alert(`¡Se han inyectado ${amount} votos exitosamente!`)
+        } else {
+            alert("Error: " + res.error)
+        }
+    }
+
     const startEditing = (locale: any) => {
         setEditingLocale(locale)
+        setInjectingLocale(null)
         // Optionally scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
@@ -88,6 +109,65 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                     <span className="text-2xl font-mono font-bold text-yellow-500">{totalVotes}</span>
                 </div>
             </header>
+
+            {/* Injection Modal */}
+            {injectingLocale && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-slate-900 border border-yellow-500/50 p-6 rounded-xl w-full max-w-md shadow-2xl relative"
+                    >
+                        <button
+                            onClick={() => setInjectingLocale(null)}
+                            className="absolute top-4 right-4 text-slate-400 hover:text-white"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+
+                        <h3 className="text-xl font-bold text-yellow-500 mb-2 flex items-center gap-2">
+                            <Syringe className="w-5 h-5" /> Inyectar Votos
+                        </h3>
+                        <p className="text-sm text-slate-300 mb-6">
+                            Agregando votos manuales para: <span className="font-bold text-white">{injectingLocale.name}</span>
+                        </p>
+
+                        <form action={handleInject} className="space-y-4">
+                            <div>
+                                <label className="text-sm text-slate-400 mb-1 block">Cantidad de Votos</label>
+                                <Input
+                                    name="amount"
+                                    type="number"
+                                    min="1"
+                                    max="10000"
+                                    placeholder="Ej: 50"
+                                    required
+                                    className="bg-slate-950 border-slate-700 text-lg font-mono text-yellow-500"
+                                    autoFocus
+                                />
+                            </div>
+
+                            <div className="flex gap-3 pt-2">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => setInjectingLocale(null)}
+                                    className="flex-1 bg-transparent border-slate-700 hover:bg-slate-800 text-slate-300"
+                                >
+                                    Cancelar
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    disabled={isSaving}
+                                    className="flex-1 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold"
+                                >
+                                    {isSaving ? "Inyectando..." : "CONFIRMAR INYECCIÓN"}
+                                </Button>
+                            </div>
+                        </form>
+                    </motion.div>
+                </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
@@ -168,6 +248,14 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                                         </div>
 
                                         <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <Button
+                                                variant="ghost"
+                                                onClick={() => setInjectingLocale(locale)}
+                                                className="h-8 w-8 p-0 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-950/30"
+                                                title="Inyectar Votos"
+                                            >
+                                                <Syringe className="w-4 h-4" />
+                                            </Button>
                                             <Button
                                                 variant="ghost"
                                                 onClick={() => startEditing(locale)}
