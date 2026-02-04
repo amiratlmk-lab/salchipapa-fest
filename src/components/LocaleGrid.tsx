@@ -1,52 +1,20 @@
-import { useState } from "react"
-import { motion, Variants } from "framer-motion"
-import { LocaleCard } from "./LocaleCard"
-import { VoteModal } from "./VoteModal"
-import { VoteSuccessModal } from "./VoteSuccessModal"
-import { supabase } from "@/lib/supabase"
-// Remove unused 'cn' import if it was unused, or keep if needed elsewhere. Keeping strictly what's needed.
+import { submitVote } from "@/actions/vote"
 
-// Define types here or import (better to keep simple for now)
-interface Locale {
-    id: string
-    name: string
-    image_url: string
-    description?: string
-}
-
-interface LocaleGridProps {
-    locales: Locale[]
-}
+// ... (keep interface and other imports)
 
 export function LocaleGrid({ locales }: LocaleGridProps) {
-    const [selectedLocale, setSelectedLocale] = useState<Locale | null>(null)
-    const [isVoteModalOpen, setIsVoteModalOpen] = useState(false)
-    const [isSubmitting, setIsSubmitting] = useState(false)
-
-    // New state for success modal
-    const [showSuccessModal, setShowSuccessModal] = useState(false)
-    const [votedLocalInfo, setVotedLocalInfo] = useState<{ name: string, image: string } | null>(null)
-
-    const handleVoteClick = (locale: Locale) => {
-        setSelectedLocale(locale)
-        setIsVoteModalOpen(true)
-    }
+    // ... (keep existing state)
 
     const handleVoteSubmit = async (name: string, contact: string) => {
         if (!selectedLocale) return
         setIsSubmitting(true)
 
         try {
-            const { error } = await supabase
-                .from('votes')
-                .insert({
-                    locale_id: selectedLocale.id,
-                    voter_name: name,
-                    voter_contact: contact
-                })
+            // Use Server Action instead of direct client call
+            const result = await submitVote(selectedLocale.id, name, contact)
 
-            if (error) {
-                alert("Error al registrar el voto: " + error.message)
+            if (!result.success) {
+                alert(result.error)
             } else {
                 // Success flow
                 setVotedLocalInfo({
@@ -59,7 +27,7 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
             }
         } catch (e) {
             console.error(e)
-            alert("Hubo un error inesperado.")
+            alert("Hubo un error inesperado al comprobar tu voto.")
         } finally {
             setIsSubmitting(false)
         }
