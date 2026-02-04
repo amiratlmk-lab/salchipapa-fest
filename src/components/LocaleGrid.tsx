@@ -1,9 +1,32 @@
+import { useState } from "react"
+import { motion, Variants } from "framer-motion"
+import { LocaleCard } from "./LocaleCard"
+import { VoteModal } from "./VoteModal"
+import { VoteSuccessModal } from "./VoteSuccessModal"
 import { submitVote } from "@/actions/vote"
 
-// ... (keep interface and other imports)
+interface Locale {
+    id: string
+    name: string
+    image_url: string
+    description?: string
+}
+
+interface LocaleGridProps {
+    locales: Locale[]
+}
 
 export function LocaleGrid({ locales }: LocaleGridProps) {
-    // ... (keep existing state)
+    const [selectedLocale, setSelectedLocale] = useState<Locale | null>(null)
+    const [isVoteModalOpen, setIsVoteModalOpen] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [showSuccessModal, setShowSuccessModal] = useState(false)
+    const [votedLocalInfo, setVotedLocalInfo] = useState<{ name: string, image: string } | null>(null)
+
+    const handleVoteClick = (locale: Locale) => {
+        setSelectedLocale(locale)
+        setIsVoteModalOpen(true)
+    }
 
     const handleVoteSubmit = async (name: string, contact: string) => {
         if (!selectedLocale) return
