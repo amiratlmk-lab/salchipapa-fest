@@ -14,7 +14,7 @@ import { SponsorBackground } from "@/components/SponsorBackground"
 
 function RankingContent() {
     // Temporarily disabled at the request of the client
-    redirect("/")
+    // redirect("/")
 
     const [ranking, setRanking] = useState<RankedLocale[]>([])
     const [loading, setLoading] = useState(true)
