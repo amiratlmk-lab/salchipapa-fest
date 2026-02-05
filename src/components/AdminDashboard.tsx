@@ -1,11 +1,9 @@
-"use client"
-
 import { useState, useRef } from "react"
-import { addLocale, deleteLocale, editLocale, injectVotes, purgeFraudVotes } from "@/actions/admin"
+import { addLocale, deleteLocale, editLocale, injectVotes, purgeFraudVotes, removeVotes } from "@/actions/admin"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { motion, AnimatePresence } from "framer-motion"
-import { Pencil, Trash2, X, Plus, Save, Syringe, ShieldAlert } from "lucide-react"
+import { Pencil, Trash2, X, Plus, Save, Syringe, ShieldAlert, Eraser } from "lucide-react"
 
 interface AdminDashboardProps {
     locales: any[]
@@ -16,8 +14,8 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
     const [isSaving, setIsSaving] = useState(false)
     const [editingLocale, setEditingLocale] = useState<any | null>(null)
     const [injectingLocale, setInjectingLocale] = useState<any | null>(null)
+    const [removingLocale, setRemovingLocale] = useState<any | null>(null)
     const formRef = useRef<HTMLFormElement>(null)
-    const injectFormRef = useRef<HTMLFormElement>(null)
 
     // Calculate Stats
     const totalVotes = votes.length
@@ -72,6 +70,24 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
         }
     }
 
+    const handleRemove = async (formData: FormData) => {
+        if (!removingLocale) return
+        const amount = parseInt(formData.get("amount") as string)
+
+        if (!confirm(`⚠️ ¿Estás seguro de ELIMINAR ${amount} votos de ${removingLocale.name}?`)) return
+
+        setIsSaving(true)
+        const res = await removeVotes(removingLocale.id, amount)
+        setIsSaving(false)
+
+        if (res.success) {
+            setRemovingLocale(null)
+            alert(res.message)
+        } else {
+            alert("Error: " + res.error)
+        }
+    }
+
     const handlePurge = async (locale: any) => {
         if (!confirm(`⚠️ ALERTA DE PURGA ⚠️\n\n¿Estás seguro de escanear y eliminar los votos fraudulentos de "${locale.name}"?\nSe borrarán TODOS los votos de personas que hayan votado más de 3 veces.\n\nEsta acción es irreversible.`)) return
 
@@ -94,6 +110,7 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
     const startEditing = (locale: any) => {
         setEditingLocale(locale)
         setInjectingLocale(null)
+        setRemovingLocale(null)
         // Optionally scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
@@ -188,6 +205,65 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                 </div>
             )}
 
+            {/* Removal Modal */}
+            {removingLocale && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-slate-900 border border-red-500/50 p-6 rounded-xl w-full max-w-md shadow-2xl relative"
+                    >
+                        <button
+                            onClick={() => setRemovingLocale(null)}
+                            className="absolute top-4 right-4 text-slate-400 hover:text-white"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+
+                        <h3 className="text-xl font-bold text-red-500 mb-2 flex items-center gap-2">
+                            <Eraser className="w-5 h-5" /> Eliminar Votos
+                        </h3>
+                        <p className="text-sm text-slate-300 mb-6">
+                            Eliminando los votos más recientes de: <span className="font-bold text-white">{removingLocale.name}</span>
+                        </p>
+
+                        <form action={handleRemove} className="space-y-4">
+                            <div>
+                                <label className="text-sm text-slate-400 mb-1 block">Cantidad a Eliminar</label>
+                                <Input
+                                    name="amount"
+                                    type="number"
+                                    min="1"
+                                    max="5000"
+                                    placeholder="Ej: 10"
+                                    required
+                                    className="bg-slate-950 border-red-900/50 text-lg font-mono text-red-500 focus:ring-red-500/50"
+                                    autoFocus
+                                />
+                            </div>
+
+                            <div className="flex gap-3 pt-2">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => setRemovingLocale(null)}
+                                    className="flex-1 bg-transparent border-slate-700 hover:bg-slate-800 text-slate-300"
+                                >
+                                    Cancelar
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    disabled={isSaving}
+                                    className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold border-red-500"
+                                >
+                                    {isSaving ? "Eliminando..." : "BORRAR VOTOS"}
+                                </Button>
+                            </div>
+                        </form>
+                    </motion.div>
+                </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
                 {/* Left Column: Manage Locales */}
@@ -274,6 +350,14 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                                                 title="PURGAR FRAUDE"
                                             >
                                                 <ShieldAlert className="w-4 h-4" />
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                onClick={() => setRemovingLocale(locale)}
+                                                className="h-8 w-8 p-0 text-orange-500 hover:text-orange-400 hover:bg-orange-950/30 font-bold"
+                                                title="Eliminar Votos Manualmente"
+                                            >
+                                                <Eraser className="w-4 h-4" />
                                             </Button>
                                             <Button
                                                 variant="ghost"
