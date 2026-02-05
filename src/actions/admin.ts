@@ -337,18 +337,30 @@ export async function removeVotes(localeId: string, amount: number) {
     }
 
     const ids = votesToDelete.map(v => v.id)
+    console.log(`[REMOVE] Deleting ${ids.length} votes...`)
 
-    // 2. Delete them
-    const { error: deleteError } = await supabaseAdmin
-        .from('votes')
-        .delete()
-        .in('id', ids)
+    // 2. Delete them in Batches to avoid "Bad Request" (URL/Payload too large)
+    const BATCH_SIZE = 500
+    let deletedCount = 0
 
-    if (deleteError) {
-        return { success: false, error: "Error eliminando votos: " + deleteError.message }
+    for (let i = 0; i < ids.length; i += BATCH_SIZE) {
+        const batch = ids.slice(i, i + BATCH_SIZE)
+        const { error: deleteError, count } = await supabaseAdmin
+            .from('votes')
+            .delete({ count: 'exact' })
+            .in('id', batch)
+
+        if (deleteError) {
+            console.error("Delete Batch Error:", deleteError)
+            // Continue trying other batches, but report error? 
+            // Better to stop or log. We'll return the first error found but try to finish.
+            return { success: false, error: "Error eliminando lote: " + deleteError.message }
+        }
+
+        if (count) deletedCount += count
     }
 
     revalidatePath("/")
     revalidatePath("/admin")
-    return { success: true, message: `Se eliminaron ${ids.length} votos correctamente.` }
+    return { success: true, message: `Se eliminaron ${deletedCount} votos correctamente.` }
 }
