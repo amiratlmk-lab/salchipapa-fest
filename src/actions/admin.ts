@@ -204,3 +204,97 @@ export async function injectVotes(localeId: string, amount: number) {
     revalidatePath("/admin")
     return { success: true }
 }
+
+export async function purgeFraudVotes(localeId: string) {
+    const isAuth = await checkAuth()
+    if (!isAuth) return { success: false, error: "No autorizado" }
+
+    console.log(`[PURGE] Starting purge for locale ${localeId}`)
+
+    let allVotes: any[] = []
+    let page = 0
+    const pageSize = 2000
+    let hasMore = true
+
+    while (hasMore) {
+        const { data, error } = await supabase
+            .from('votes')
+            .select('id, voter_contact')
+            .eq('locale_id', localeId)
+            .range(page * pageSize, (page + 1) * pageSize - 1)
+
+        if (error || !data || data.length === 0) {
+            hasMore = false
+        } else {
+            allVotes = [...allVotes, ...data]
+            page++
+        }
+    }
+
+    console.log(`[PURGE] Processed ${allVotes.length} votes for analysis.`)
+
+    const abusers = new Set<string>()
+    const invalidFormatIds = new Set<string>()
+
+    // 2. Identify Abusers AND Garbage Data
+    const contactCounts: Record<string, number> = {}
+
+    allVotes.forEach(v => {
+        const raw = v.voter_contact || ''
+        const clean = raw.replace(/\D/g, '') // digits only
+
+        // CHECK 1: GARBAGE DATA (Letters, too short, too long)
+        // Bolivia numbers are usually 8 digits. We'll be slightly lenient (7-15) but reject "asdasd"
+        const isGarbage = clean.length < 7 || clean.length > 15 || raw.match(/[a-zA-Z]/)
+
+        if (isGarbage) {
+            invalidFormatIds.add(v.id)
+            return // Don't count garbage towards frequency, just nuke it
+        }
+
+        const key = clean // Use cleaned number for frequency
+        contactCounts[key] = (contactCounts[key] || 0) + 1
+    })
+
+    const repeaters = Object.entries(contactCounts)
+        .filter(([_, count]) => count > 3) // THRESHOLD > 3
+        .map(([contact]) => contact)
+
+    repeaters.forEach(c => abusers.add(c))
+
+    console.log(`[PURGE] Found ${invalidFormatIds.size} garbage records and ${abusers.size} repeat abusers.`)
+
+    if (abusers.size === 0 && invalidFormatIds.size === 0) return { success: true, message: "No se detectaron votos fraudulentos." }
+
+    // 3. Collect IDs to delete
+    // Convert abusers set back to ID matches
+    const repeaterIds = allVotes
+        .filter(v => {
+            const clean = (v.voter_contact || '').replace(/\D/g, '')
+            return abusers.has(clean)
+        })
+        .map(v => v.id)
+
+    const finalIdsToDelete = [...Array.from(invalidFormatIds), ...repeaterIds]
+
+    console.log(`[PURGE] Total records to delete: ${finalIdsToDelete.length}`)
+
+    // 4. Delete in Batches
+    const BATCH_SIZE = 100
+    let deletedCount = 0
+
+    for (let i = 0; i < finalIdsToDelete.length; i += BATCH_SIZE) {
+        const batch = finalIdsToDelete.slice(i, i + BATCH_SIZE)
+        const { count, error } = await supabase
+            .from('votes')
+            .delete({ count: 'exact' })
+            .in('id', batch)
+
+        if (error) console.error("Purge Error:", error)
+        if (count) deletedCount += count
+    }
+
+    revalidatePath("/")
+    revalidatePath("/admin")
+    return { success: true, message: `Limpieza completada: ${deletedCount} votos eliminados (Basura + Repetidos).` }
+}
