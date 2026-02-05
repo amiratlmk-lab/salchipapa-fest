@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useRef } from "react"
 import { addLocale, deleteLocale, editLocale, injectVotes, purgeFraudVotes, removeVotes } from "@/actions/admin"
 import { Button } from "./ui/button"
