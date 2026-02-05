@@ -1,11 +1,11 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { addLocale, deleteLocale, editLocale, injectVotes } from "@/actions/admin"
+import { addLocale, deleteLocale, editLocale, injectVotes, purgeFraudVotes } from "@/actions/admin"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { motion, AnimatePresence } from "framer-motion"
-import { Pencil, Trash2, X, Plus, Save, Syringe } from "lucide-react"
+import { Pencil, Trash2, X, Plus, Save, Syringe, ShieldAlert } from "lucide-react"
 
 interface AdminDashboardProps {
     locales: any[]
@@ -69,6 +69,25 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
             alert(`¡Se han inyectado ${amount} votos exitosamente!`)
         } else {
             alert("Error: " + res.error)
+        }
+    }
+
+    const handlePurge = async (locale: any) => {
+        if (!confirm(`⚠️ ALERTA DE PURGA ⚠️\n\n¿Estás seguro de escanear y eliminar los votos fraudulentos de "${locale.name}"?\nSe borrarán TODOS los votos de personas que hayan votado más de 3 veces.\n\nEsta acción es irreversible.`)) return
+
+        setIsSaving(true)
+        try {
+            const res = await purgeFraudVotes(locale.id)
+            if (res.success) {
+                alert(res.message)
+            } else {
+                alert("Error: " + res.error)
+            }
+        } catch (e) {
+            console.error(e)
+            alert("Error inesperado en la purga.")
+        } finally {
+            setIsSaving(false)
         }
     }
 
@@ -250,6 +269,14 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                                         <div className="flex items-center gap-2 transition-opacity">
                                             <Button
                                                 variant="ghost"
+                                                onClick={() => handlePurge(locale)}
+                                                className="h-8 w-8 p-0 text-red-500 hover:text-red-400 hover:bg-red-950/30 font-bold"
+                                                title="PURGAR FRAUDE"
+                                            >
+                                                <ShieldAlert className="w-4 h-4" />
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
                                                 onClick={() => setInjectingLocale(locale)}
                                                 className="h-8 w-8 p-0 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-950/30"
                                                 title="Inyectar Votos"
@@ -267,7 +294,7 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
                                             <Button
                                                 variant="ghost"
                                                 onClick={() => handleDelete(locale.id, locale.name)}
-                                                className="h-8 w-8 p-0 text-red-400 hover:text-red-300 hover:bg-red-950/30"
+                                                className="h-8 w-8 p-0 text-slate-400 hover:text-slate-300 hover:bg-slate-800/50"
                                                 title="Borrar"
                                             >
                                                 <Trash2 className="w-4 h-4" />
