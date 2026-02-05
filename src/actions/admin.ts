@@ -298,3 +298,56 @@ export async function purgeFraudVotes(localeId: string) {
     revalidatePath("/admin")
     return { success: true, message: `Limpieza completada: ${deletedCount} votos eliminados (Basura + Repetidos).` }
 }
+
+export async function removeVotes(localeId: string, amount: number) {
+    const isAuth = await checkAuth()
+    if (!isAuth) return { success: false, error: "No autorizado" }
+
+    if (!amount || amount <= 0) return { success: false, error: "Cantidad inválida" }
+
+    // Use Service Role Key to bypass RLS
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (!serviceRoleKey) {
+        console.error("Missing SUPABASE_SERVICE_ROLE_KEY")
+        return { success: false, error: "Error de configuración: Falta SUAPBASE_SERVICE_ROLE_KEY" }
+    }
+
+    const supabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey, {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false
+        }
+    })
+
+    // 1. Fetch the N most recent votes for this locale
+    const { data: votesToDelete, error: fetchError } = await supabaseAdmin
+        .from('votes')
+        .select('id')
+        .eq('locale_id', localeId)
+        .order('created_at', { ascending: false })
+        .limit(amount)
+
+    if (fetchError) {
+        return { success: false, error: "Error buscando votos: " + fetchError.message }
+    }
+
+    if (!votesToDelete || votesToDelete.length === 0) {
+        return { success: false, error: "No se encontraron votos para eliminar." }
+    }
+
+    const ids = votesToDelete.map(v => v.id)
+
+    // 2. Delete them
+    const { error: deleteError } = await supabaseAdmin
+        .from('votes')
+        .delete()
+        .in('id', ids)
+
+    if (deleteError) {
+        return { success: false, error: "Error eliminando votos: " + deleteError.message }
+    }
+
+    revalidatePath("/")
+    revalidatePath("/admin")
+    return { success: true, message: `Se eliminaron ${ids.length} votos correctamente.` }
+}
