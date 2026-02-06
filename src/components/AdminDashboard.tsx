@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useRef } from "react"
-import { addLocale, deleteLocale, editLocale, injectVotes, purgeFraudVotes, removeVotes } from "@/actions/admin"
+import { useState, useRef, useEffect } from "react"
+import { addLocale, deleteLocale, editLocale, injectVotes, purgeFraudVotes, removeVotes, toggleVoting, getVotingStatus } from "@/actions/admin"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { motion, AnimatePresence } from "framer-motion"
-import { Pencil, Trash2, X, Plus, Save, Syringe, ShieldAlert, Eraser } from "lucide-react"
+import { Pencil, Trash2, X, Plus, Save, Syringe, ShieldAlert, Eraser, Lock, Unlock } from "lucide-react"
 
 interface AdminDashboardProps {
     locales: any[]
@@ -17,7 +17,32 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
     const [editingLocale, setEditingLocale] = useState<any | null>(null)
     const [injectingLocale, setInjectingLocale] = useState<any | null>(null)
     const [removingLocale, setRemovingLocale] = useState<any | null>(null)
+    const [votingEnabled, setVotingEnabled] = useState(true) // Default true, syncs on mount
+
     const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        getVotingStatus().then(status => setVotingEnabled(status))
+    }, [])
+
+    const handleToggleVoting = async () => {
+        const newState = !votingEnabled
+        const msg = newState
+            ? "¿Seguro que quieres ACTIVAR las votaciones? ¡La gente podrá votar de nuevo!"
+            : "⚠️ ¿Seguro que quieres DETENER las votaciones? \n\nNadie podrá votar hasta que lo reactives."
+
+        if (!confirm(msg)) return
+
+        setIsSaving(true)
+        const res = await toggleVoting(newState)
+        setIsSaving(false)
+
+        if (res.success) {
+            setVotingEnabled(newState)
+        } else {
+            alert("Error: " + res.error)
+        }
+    }
 
     // Calculate Stats
     const totalVotes = votes.length
@@ -135,16 +160,42 @@ export function AdminDashboard({ locales, votes }: AdminDashboardProps) {
 
     return (
         <div className="text-white max-w-6xl mx-auto p-6">
-            <header className="flex justify-between items-center mb-12">
+            <header className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
                 <div>
                     <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">
                         Panel de Control
                     </h1>
                     <p className="text-slate-400">Salchipapa Fest 2026 Admin</p>
                 </div>
-                <div className="bg-slate-800 rounded-lg px-4 py-2 border border-slate-700">
-                    <span className="block text-xs text-slate-400 uppercase tracking-wider">Total Votos</span>
-                    <span className="text-2xl font-mono font-bold text-yellow-500">{totalVotes}</span>
+
+                <div className="flex items-center gap-6">
+                    {/* Voting Toggle */}
+                    <div className="flex flex-col items-end">
+                        <span className="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">Estado Votación</span>
+                        <button
+                            onClick={handleToggleVoting}
+                            disabled={isSaving}
+                            className={`flex items-center gap-2 px-6 py-2 rounded-full font-bold transition-all ${votingEnabled
+                                ? 'bg-green-500/10 text-green-400 border border-green-500/50 hover:bg-green-500/20'
+                                : 'bg-red-500/10 text-red-500 border border-red-500/50 hover:bg-red-500/20'
+                                }`}
+                        >
+                            {votingEnabled ? (
+                                <>
+                                    <Unlock className="w-4 h-4" /> ACTIVAS
+                                </>
+                            ) : (
+                                <>
+                                    <Lock className="w-4 h-4" /> DETENIDAS
+                                </>
+                            )}
+                        </button>
+                    </div>
+
+                    <div className="bg-slate-800 rounded-lg px-4 py-2 border border-slate-700">
+                        <span className="block text-xs text-slate-400 uppercase tracking-wider">Total Votos</span>
+                        <span className="text-2xl font-mono font-bold text-yellow-500">{totalVotes}</span>
+                    </div>
                 </div>
             </header>
 
