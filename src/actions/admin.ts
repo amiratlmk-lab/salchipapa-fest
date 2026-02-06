@@ -364,3 +364,28 @@ export async function removeVotes(localeId: string, amount: number) {
     revalidatePath("/admin")
     return { success: true, message: `Se eliminaron ${deletedCount} votos correctamente.` }
 }
+
+export async function toggleVoting(status: boolean) {
+    const isAuth = await checkAuth()
+    if (!isAuth) return { success: false, error: "No autorizado" }
+
+    const { error } = await supabase
+        .from('app_config')
+        .upsert({ key: 'voting_active', value: String(status) })
+
+    if (error) return { success: false, error: error.message }
+
+    revalidatePath("/")
+    revalidatePath("/admin")
+    return { success: true }
+}
+
+export async function getVotingStatus() {
+    const { data } = await supabase
+        .from('app_config')
+        .select('value')
+        .eq('key', 'voting_active')
+        .single()
+
+    return data?.value === 'true'
+}
