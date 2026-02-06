@@ -1,54 +1,37 @@
 "use client"
 
-import { useEffect, useState, Suspense } from "react"
-import { redirect } from "next/navigation"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Trophy, ChevronLeft, Flame } from "lucide-react"
+import { Trophy, Crown, Medal } from "lucide-react"
 import { getRanking, RankedLocale } from "@/actions/ranking"
 import { Particles } from "@/components/Particles"
-import { useSearchParams } from "next/navigation"
-
 import { SponsorBackground } from "@/components/SponsorBackground"
 
-function RankingContent() {
-    // Temporarily disabled at the request of the client
-    // redirect("/")
-
-    const [ranking, setRanking] = useState<RankedLocale[]>([])
+export default function WinnersPage() {
+    const [winners, setWinners] = useState<RankedLocale[]>([])
     const [loading, setLoading] = useState(true)
-    const searchParams = useSearchParams()
-
-    // Get user's vote from context
-    const votedName = searchParams.get('votedName')
-    // const votedVotes = searchParams.get('votedVotes')
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchWinners = async () => {
             const data = await getRanking()
-            setRanking(data)
+            // Take top 3
+            setWinners(data.slice(0, 3))
             setLoading(false)
         }
-        fetchData()
-
-        const interval = setInterval(fetchData, 10000)
-        return () => clearInterval(interval)
+        fetchWinners()
     }, [])
 
-    const getRankIcon = (index: number) => {
-        if (index === 0) return <div className="w-8 h-8 rounded-full bg-gradient-to-b from-yellow-300 to-yellow-600 flex items-center justify-center text-black font-bold border border-yellow-200 shadow-[0_0_10px_rgba(234,179,8,0.5)]">1</div>
-        if (index === 1) return <div className="w-8 h-8 rounded-full bg-gradient-to-b from-slate-300 to-slate-400 flex items-center justify-center text-black font-bold border border-slate-200 shadow-[0_0_10px_rgba(148,163,184,0.5)]">2</div>
-        if (index === 2) return <div className="w-8 h-8 rounded-full bg-gradient-to-b from-orange-300 to-orange-500 flex items-center justify-center text-black font-bold border border-orange-200 shadow-[0_0_10px_rgba(249,115,22,0.5)]">3</div>
-        return <span className="text-slate-400 font-bold text-lg w-8 text-center">{index + 1}.</span>
-    }
+    const first = winners[0]
+    const second = winners[1]
+    const third = winners[2]
 
     return (
-        <div className="min-h-screen bg-slate-950 text-white relative overflow-hidden font-sans selection:bg-yellow-500/30">
+        <div className="min-h-screen bg-slate-950 text-white relative overflow-hidden font-sans selection:bg-yellow-500/30 flex flex-col">
 
-            {/* Background Layer (Same as Home) */}
+            {/* Background Layer */}
             <div className="fixed inset-0 z-0">
-                {/* Mobile Background */}
                 <div className="absolute inset-0 block md:hidden">
                     <Image
                         src="/bg-home-mobile-4k.jpg"
@@ -60,7 +43,6 @@ function RankingContent() {
                         unoptimized
                     />
                 </div>
-                {/* Desktop Background */}
                 <div className="absolute inset-0 hidden md:block">
                     <Image
                         src="/bg-home-4k.jpg"
@@ -72,134 +54,135 @@ function RankingContent() {
                         unoptimized
                     />
                 </div>
-                <div className="absolute inset-0 bg-black/60" /> {/* Slight overlay for readability */}
+                <div className="absolute inset-0 bg-black/60" />
                 <Particles />
                 <SponsorBackground />
             </div>
 
-            <main className="relative z-10 flex flex-col items-center justify-center min-h-screen py-8 px-4">
+            {/* Main Content */}
+            <main className="relative z-10 flex-grow flex flex-col items-center justify-center p-4 pb-20">
 
-                {/* Golden Frame Container - Narrower (max-w-md) to match reference */}
-                <div className="w-full max-w-md relative">
+                {/* Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center mb-12 mt-8"
+                >
+                    <h1 className="text-4xl md:text-6xl font-black text-[#fbcc04] uppercase tracking-tight drop-shadow-[0_0_25px_rgba(251,204,4,0.6)] font-lilita mb-2">
+                        Ganadores
+                    </h1>
+                    <p className="text-xl md:text-2xl text-white font-medium tracking-widest uppercase opacity-90">
+                        Salchipapa Fest 2026
+                    </p>
+                </motion.div>
 
-                    {/* Outer Glow */}
-                    <div className="absolute -inset-[3px] bg-gradient-to-b from-yellow-600 via-yellow-400 to-yellow-600 rounded-[2rem] opacity-60 blur-sm" />
+                {loading ? (
+                    <div className="flex flex-col items-center gap-4 text-yellow-500 animate-pulse mt-20">
+                        <Trophy className="w-16 h-16" />
+                        <span className="text-xl font-lilita tracking-wider">Calculando resultados...</span>
+                    </div>
+                ) : (
+                    <div className="flex flex-row items-end justify-center gap-2 md:gap-8 w-full max-w-5xl px-0 md:px-4 mt-8 md:mt-0">
 
-                    {/* Main Card */}
-                    <div className="relative bg-slate-950/90 backdrop-blur-xl border-2 border-yellow-500/50 rounded-[2rem] p-6 shadow-[0_0_50px_rgba(234,179,8,0.2)] flex flex-col max-h-[85vh]">
-
-                        {/* Decoration Top */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-[2px] bg-gradient-to-r from-transparent via-yellow-500 to-transparent shadow-[0_0_10px_rgba(234,179,8,1)]" />
-
-                        {/* Header */}
-                        <div className="text-center mb-6 flex-shrink-0">
-                            <div className="flex justify-center mb-3">
-                                <Trophy className="w-10 h-10 text-[#fbcc04] drop-shadow-[0_0_10px_rgba(251,204,4,0.6)]" />
-                            </div>
-                            <h1 className="text-xl md:text-2xl font-bold text-[#eec170] uppercase tracking-wide mb-1 font-lilita drop-shadow-sm">
-                                Ranking Oficial – Salchipapa Fest 2026
-                            </h1>
-                            <div className="flex items-center justify-center gap-2 opacity-80">
-                                <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-yellow-500/50" />
-                                <p className="text-xs text-yellow-100/70 font-medium tracking-widest uppercase">
-                                    Resultados en tiempo real
-                                </p>
-                                <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-yellow-500/50" />
-                            </div>
-                        </div>
-
-                        {/* Ranking List - Scrollable */}
-                        <div className="flex-grow overflow-y-auto pr-2 custom-scrollbar space-y-2 mb-6">
-                            {loading ? (
-                                <div className="text-center py-12 text-slate-500 animate-pulse flex flex-col items-center gap-3">
-                                    <div className="w-8 h-8 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin" />
-                                    Cargando posiciones...
-                                </div>
-                            ) : ranking.map((locale, index) => (
+                        {/* 2nd Place (Left) */}
+                        {second && (
+                            <div className="order-1 md:order-1 flex flex-col items-center w-1/3">
                                 <motion.div
-                                    key={locale.id}
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.05 }}
-                                    className={`relative flex items-center gap-3 p-3 rounded-lg border transition-all ${index < 3
-                                        ? "bg-gradient-to-r from-yellow-900/20 to-transparent border-yellow-500/30"
-                                        : "bg-transparent border-slate-800 hover:bg-white/5"
-                                        }`}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.5 }}
+                                    className="flex flex-col items-center w-full"
                                 >
-                                    {/* Rank Number */}
-                                    <div className="flex-shrink-0 w-8 flex justify-center">
-                                        {getRankIcon(index)}
+                                    {/* Avatar */}
+                                    <div className="relative w-16 h-16 md:w-32 md:h-32 rounded-full border-2 md:border-4 border-slate-300 shadow-[0_0_20px_rgba(203,213,225,0.4)] overflow-hidden bg-black mb-2 md:mb-4 z-20">
+                                        <Image src={second.image_url} alt={second.name} fill className="object-cover" />
                                     </div>
+                                    <h3 className="text-[10px] md:text-xl font-bold text-slate-200 text-center mb-1 uppercase tracking-wide px-1 line-clamp-2 min-h-[2rem] md:min-h-[3.5rem] flex items-center justify-center leading-tight">
+                                        {second.name}
+                                    </h3>
+                                    <span className="bg-slate-800/80 text-slate-300 px-2 py-0.5 md:px-3 md:py-1 rounded-full text-[9px] md:text-sm font-mono font-bold mb-1 md:mb-2 backdrop-blur-sm border border-slate-600">
+                                        {second.votes.toLocaleString()}
+                                    </span>
 
-                                    {/* Logo */}
-                                    <div className={`relative w-10 h-10 rounded-full border overflow-hidden bg-black p-0.5 ${index < 3 ? 'border-yellow-500/40' : 'border-slate-700'}`}>
-                                        <Image
-                                            src={locale.image_url}
-                                            alt={locale.name}
-                                            fill
-                                            className="object-contain p-0.5"
-                                        />
-                                    </div>
-
-                                    {/* Name */}
-                                    <div className="flex-grow min-w-0">
-                                        <h3 className={`font-bold truncate text-sm uppercase tracking-wide ${index < 3 ? "text-[#fbcc04]" : "text-slate-200"}`}>
-                                            {locale.name}
-                                        </h3>
-                                    </div>
-
-                                    {/* Votes */}
-                                    <div className="text-right flex-shrink-0">
-                                        <span className={`block text-lg font-bold tabular-nums ${index < 3 ? "text-white" : "text-slate-300"}`}>
-                                            {locale.votes.toLocaleString()}
-                                        </span>
-                                        <span className="text-[10px] text-slate-500 font-medium uppercase block -mt-1">votos</span>
+                                    {/* Podium Block */}
+                                    <div className="w-full h-24 md:h-64 bg-gradient-to-b from-slate-400 to-slate-700 rounded-t-lg relative shadow-2xl flex flex-col justify-start pt-2 md:pt-4 items-center border-t border-slate-300/50">
+                                        <Medal className="w-6 h-6 md:w-12 md:h-12 text-slate-900 drop-shadow-sm mb-1 md:mb-2 opacity-50" />
+                                        <span className="text-3xl md:text-6xl font-lilita text-slate-900/40">2</span>
                                     </div>
                                 </motion.div>
-                            ))}
-                        </div>
+                            </div>
+                        )}
 
-                        {/* Footer Section (Fixed at bottom of card) */}
-                        <div className="flex-shrink-0 space-y-3 pt-4 border-t border-white/10">
-
-                            {/* User Vote Info */}
-                            {votedName && (
-                                <div className="py-2 px-3 rounded-lg bg-gradient-to-r from-orange-950/50 to-red-950/20 border border-orange-500/30 flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <Flame className="w-4 h-4 text-orange-500 animate-pulse" />
-                                        <span className="text-orange-200 text-xs font-medium">Tu voto:</span>
-                                        <span className="text-[#fbcc04] font-bold text-sm uppercase tracking-wide">{votedName}</span>
+                        {/* 1st Place (Center) */}
+                        {first && (
+                            <div className="order-2 md:order-2 flex flex-col items-center w-1/3 -mt-6 md:-mt-24 z-10">
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.8, y: 50 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    transition={{ delay: 0.2, type: "spring" }}
+                                    className="flex flex-col items-center w-full"
+                                >
+                                    <div className="mb-1 md:mb-2 animate-bounce">
+                                        <Crown className="w-8 h-8 md:w-12 md:h-12 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]" fill="currentColor" />
                                     </div>
-                                    <div className="text-orange-200/80 text-xs">
-                                        {/* Place for user specific count if we had it, or just generic check */}
-                                        ✅
-                                    </div>
-                                </div>
-                            )}
 
-                            {/* Back Button */}
-                            <Link href="/" className="block">
-                                <button className="w-full py-3 rounded-full border border-yellow-600/30 bg-black/40 hover:bg-yellow-900/10 text-[#fbcc04] text-sm font-bold uppercase tracking-widest transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
-                                    Volver al Inicio
-                                </button>
-                            </Link>
-                        </div>
+                                    {/* Avatar */}
+                                    <div className="relative w-20 h-20 md:w-48 md:h-48 rounded-full border-2 md:border-4 border-[#fbcc04] shadow-[0_0_40px_rgba(251,204,4,0.6)] overflow-hidden bg-black mb-2 md:mb-6 z-20 ring-2 md:ring-4 ring-yellow-500/20">
+                                        <Image src={first.image_url} alt={first.name} fill className="object-cover" />
+                                    </div>
+
+                                    <h3 className="text-xs md:text-3xl font-black text-[#fbcc04] text-center mb-1 uppercase tracking-wider px-1 line-clamp-2 min-h-[2.5rem] md:min-h-[4rem] flex items-center justify-center drop-shadow-md leading-tight">
+                                        {first.name}
+                                    </h3>
+                                    <span className="bg-yellow-900/80 text-yellow-200 px-2 py-0.5 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-base font-mono font-bold mb-2 md:mb-4 backdrop-blur-sm border border-yellow-500/50 shadow-[0_0_15px_rgba(234,179,8,0.3)]">
+                                        {first.votes.toLocaleString()}
+                                    </span>
+
+                                    {/* Podium Block */}
+                                    <div className="w-full h-32 md:h-80 bg-gradient-to-b from-yellow-400 via-yellow-500 to-yellow-700 rounded-t-xl relative shadow-[0_0_50px_rgba(234,179,8,0.2)] flex flex-col justify-start pt-3 md:pt-6 items-center border-t border-yellow-200/50">
+                                        <Trophy className="w-8 h-8 md:w-16 md:h-16 text-yellow-900 drop-shadow-sm mb-1 md:mb-2 opacity-60" fill="currentColor" />
+                                        <span className="text-4xl md:text-8xl font-lilita text-yellow-900/40">1</span>
+
+                                        {/* Shine effect */}
+                                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-50 rounded-t-xl" />
+                                    </div>
+                                </motion.div>
+                            </div>
+                        )}
+
+                        {/* 3rd Place (Right) */}
+                        {third && (
+                            <div className="order-3 md:order-3 flex flex-col items-center w-1/3">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.7 }}
+                                    className="flex flex-col items-center w-full"
+                                >
+                                    {/* Avatar */}
+                                    <div className="relative w-16 h-16 md:w-32 md:h-32 rounded-full border-2 md:border-4 border-orange-700 shadow-[0_0_20px_rgba(194,65,12,0.4)] overflow-hidden bg-black mb-2 md:mb-4 z-20">
+                                        <Image src={third.image_url} alt={third.name} fill className="object-cover" />
+                                    </div>
+                                    <h3 className="text-[10px] md:text-xl font-bold text-orange-200 text-center mb-1 uppercase tracking-wide px-1 line-clamp-2 min-h-[2rem] md:min-h-[3.5rem] flex items-center justify-center leading-tight">
+                                        {third.name}
+                                    </h3>
+                                    <span className="bg-orange-950/80 text-orange-300 px-2 py-0.5 md:px-3 md:py-1 rounded-full text-[9px] md:text-sm font-mono font-bold mb-1 md:mb-2 backdrop-blur-sm border border-orange-800">
+                                        {third.votes.toLocaleString()}
+                                    </span>
+
+                                    {/* Podium Block */}
+                                    <div className="w-full h-16 md:h-48 bg-gradient-to-b from-orange-600 to-orange-900 rounded-t-lg relative shadow-2xl flex flex-col justify-start pt-2 md:pt-4 items-center border-t border-orange-400/50">
+                                        <Medal className="w-6 h-6 md:w-12 md:h-12 text-orange-950 drop-shadow-sm mb-1 md:mb-2 opacity-50" />
+                                        <span className="text-3xl md:text-6xl font-lilita text-orange-950/40">3</span>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        )}
 
                     </div>
-                </div>
+                )}
+
             </main>
         </div>
-    )
-}
-
-export default function RankingPage() {
-    return (
-        <Suspense fallback={
-            <div className="min-h-screen bg-slate-950 flex items-center justify-center text-yellow-500">
-                <Trophy className="w-10 h-10 animate-bounce" />
-            </div>
-        }>
-            <RankingContent />
-        </Suspense>
     )
 }
