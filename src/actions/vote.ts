@@ -19,17 +19,6 @@ const BLACKLISTED_CONTACTS = [
 ]
 
 export async function submitVote(localeId: string, name: string, contact: string) {
-    // 0. Check Global Voting Status
-    const { data: config } = await supabase
-        .from('app_config')
-        .select('value')
-        .eq('key', 'voting_active')
-        .single()
-
-    if (config && config.value !== 'true') {
-        return { success: false, error: "🚫 LAS VOTACIONES ESTÁN CERRADAS." }
-    }
-
     // 1. Blacklist Check
     if (BLACKLISTED_CONTACTS.includes(contact.trim())) {
         console.warn(`Blocked blacklist vote attempt: ${contact}`)
